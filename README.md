@@ -19,3 +19,88 @@ Users can favorite items, which will be plotted onto a map on their account page
 Videos will be posted as regularly as possible, documenting these locations (so vaguely) with a touch of humor.
 
 Users will be able to comment on posts, discussing their stories and asking the poster questions.
+
+Likely more features by next milestone!
+
+## Data Model
+Minimally, we'll have to store Users, Lists and Items
+
+* users can have multiple lists
+* each list can have multiple items
+
+First draft schema:
+
+```javascript
+// users
+// * our site requires authentication...
+// * so users have a username and password
+// * they also can have 0 or more lists
+var User = new mongoose.Schema({
+  // username, password provided by plugin
+  lists:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'List' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+});
+
+var Item = new mongoose.Schema({
+  name: {type: String, required: true},
+  price: {type: Number, required: true},
+  restaurant: {type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant'},
+  favorites: {type: Number, required: true},
+  imgUrl: {type: String, required: true},
+  videoUrl: {type: String, required: false}
+},
+{
+  timestamps: true
+});
+
+var List = new mongoose.Schema({
+  restaurants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }],
+  name: {type: String, required: true},
+  createdAt: {type: Date, required: true},
+  updatedAt: {type: Date, required: true},
+});
+
+List.pre('save', function(next){
+  now = new Date();
+  this.updatedAt = now;
+  if ( !this.createdAt ) {
+    this.createdAt = now;
+  }
+  next();
+});
+
+var Comment = new mongoose.Schema({
+  text: {type: String, required: true},
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+});
+
+var Restaurant = new mongoose.Schema({
+  geoLocation: //look into google maps api more to find most suitable type (probably number array)
+  name: {type: String, required: true},
+  items: {type: mongoose.Schema.Types.ObjectId, ref: 'Item'}
+})
+```
+
+## Wireframes
+
+/ - home page
+
+![home](images/mockup/home.JPG)
+
+/account-slug - current user or other user's account page
+
+![account](images/mockup/account.JPG)
+
+/restaurant-slug- shows all items added for a particular restaurant
+
+![restaurant](images/mockup/restaurant.JPG)
+
+/item-slug- shows all item information for a particular item. possible description to be added.
+
+![restaurant](images/mockup/item.JPG)
+
+## Site map
+
+/map of how this simple, template-utilizing website functions
+
+![site map](images/mockup/sitemap.JPG)
