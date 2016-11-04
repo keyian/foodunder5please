@@ -1,6 +1,6 @@
 # Food Under Five Please (FU5P)
 
-![img not displaying](/images/fu5p/fu5pLog2.svg?raw=true "Optional Title")
+![img not displaying](/images/fu5p/fu5pLogo2.svg?raw=true "Optional Title")
 
 ##Overview
 
