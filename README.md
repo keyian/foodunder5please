@@ -101,6 +101,37 @@ var Restaurant = new mongoose.Schema({
 
 ## Site map
 
-/map of how this simple, template-utilizing website functions
+map of how this simple, template-utilizing website functions
 
 ![site map](images/mockup/sitemap.JPG)
+
+## User stories
+
+1. as a user, I can find cheap items to grub on in NYC
+2. as a user, I can make lists of items that i love, or sort them by other categories of my choosing
+3. as a user, I can watch non-sequitir review videos
+4. as a user, I can comment on items and have a discussion with other users
+5. as a user, I can share with others my favorite cheap items by adding my discoveries to fu5p!
+
+## Research Topics
+
+*(4 points) Perform client side form validation using custom JavaScript or JavaScript library
+  *validating images and text length
+  *also semantic validations, like is this a restaurant? is this capitalized?
+  *price must be below 5
+
+*(3 points) ReactJS
+  *this is a cool way to learn react because it allows for state control of...
+    *comments
+    *favorites
+    *lists
+  *won't have to reload page to see new your new comment
+  *helps with organization as more features are added
+
+*(1 point) Google Maps API
+  *Essential to the website, as it will show users where to get cheap eats.
+  *Autocomplete
+  *geolocation
+
+*(1 point) Facebook Login API
+  *easy to implement. people don't want to have yet another account
