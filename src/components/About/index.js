@@ -4,6 +4,8 @@ import classnames from 'classnames';
 
 import './style.css';
 
+import Logo from '../Logo';
+
 export default class About extends Component {
   // static propTypes = {}
   // static defaultProps = {}
@@ -12,7 +14,8 @@ export default class About extends Component {
   render() {
     const { className, ...props } = this.props;
     return (
-      <div className={classnames('About', className)} {...props}>
+      <div className={classnames('About', className)}>
+        <Logo className={classnames('logoSm', className)} />
         <h1>
           About
         </h1>
