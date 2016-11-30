@@ -4,6 +4,8 @@ const path = require('path');
 
 const app = express();
 
+require('./db');
+
 // Setup logger
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
