@@ -1,14 +1,22 @@
 const express = require('express');
 let multer = require('multer');
+
+let mimeToExt = {
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg",
+  "image/png": "png"
+}
+
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, 'projClient/public/uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    let ext = "." + mimeToExt[file.mimetype];
+    cb(null, file.fieldname + '-' + Date.now()+ext);
   }
 });
-let upload  = multer({ dest: "projClient/public/uploads/"});
+let upload  = multer({storage: storage});
 
 
 // check if you actually need to
@@ -36,6 +44,7 @@ if (process.env.NODE_ENV === 'production') {
 app.post('/api/uploadImage', upload.single('itemImage'), (req, res, next) => {
   console.log("we startin upload image");
   console.log(req.file);
+  res.send(req.file.path);
 
 
 });
@@ -70,22 +79,24 @@ app.post('/api/addItem', (req, res) => {
         price: +item.itemCost,
         restaurant: rest,
         favorites: 0,
-        imgPath: "***! need to put actual imgPath",
+        imgPath: item.uploadedImagePath,
         videoUrl: "***! need to setup check for videoUrl"
       }).save(function(err, item, count) {
         if(err) {
           console.log("o no item error idk what to do lol ***!");
         } else {
-          // rest.items.push(item);
-          // rest.save(function(err, rest, count) {
-          //   // do nothing
-          // });
+          rest.items.push(item);
+          rest.save(function(err, rest, count) {
+            // do nothing
+            res.send("we good chachi!");
+          });
           // ***! send item to dom
           // return item;
         }
       });
     }
   });
+
 });
 
 app.listen(app.get('port'), () => {

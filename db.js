@@ -35,4 +35,19 @@ mongoose.model("Item", Item);
 mongoose.model("Comment", Comm);
 mongoose.model("Restaurant", Restaurant);
 
-mongoose.connect("mongodb://localhost/fu5p");
+if(process.env.NODE_ENV == "PRODUCTION") {
+    // if we're in PRODUCTION mode, then read the configration from a file
+   // use blocking file io to do this...
+   let fs = require('fs');
+   let path = require('path');
+   let fn = path.join(__dirname, 'config.json');
+   let data = fs.readFileSync(fn);
+
+   // our configuration file will be in json, so parse it and set the
+   // conenction string appropriately!
+   let conf = JSON.parse(data);
+   let dbconf = conf.dbconf;
+} else {
+  dbconf = "mongodb://localhost/fu5p";
+}
+mongoose.connect(dbconf);
