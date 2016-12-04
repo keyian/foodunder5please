@@ -9,9 +9,9 @@ var mimeToExt = {
 
 var saveLoc = "";
 if(process.env.NODE_ENV === "PRODUCTION") {
-  saveLoc = 'projClient/build/images';
+  saveLoc = 'projClient/build/images/uploads';
 } else {
-  saveLoc = 'projClient/public/uploads';
+  saveLoc = 'projClient/public/images/uploads';
 }
 var storage = multer.diskStorage({
 
