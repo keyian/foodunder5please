@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-let dbconf="";
+var dbconf="";
 
 var User = mongoose.Schema({
   // username, password provided by plugin
@@ -40,14 +40,14 @@ mongoose.model("Restaurant", Restaurant);
 if(process.env.NODE_ENV == "PRODUCTION") {
     // if we're in PRODUCTION mode, then read the configration from a file
    // use blocking file io to do this...
-   let fs = require('fs');
-   let path = require('path');
-   let fn = path.join(__dirname, 'config.json');
-   let data = fs.readFileSync(fn);
+   var fs = require('fs');
+   var path = require('path');
+   var fn = path.join(__dirname, 'config.json');
+   var data = fs.readFileSync(fn);
 
    // our configuration file will be in json, so parse it and set the
    // conenction string appropriately!
-   let conf = JSON.parse(data);
+   var conf = JSON.parse(data);
    console.log(conf);
    dbconf = conf.dbconf;
 } else {
