@@ -98,5 +98,5 @@ app.post('/api/addItem', function(req, res) {
 });
 
 app.listen(app.get('port'), function() {
-  console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
+  console.log("Find the server at: http://localhost:${app.get('port')}/"); // eslint-disable-line no-console
 });
