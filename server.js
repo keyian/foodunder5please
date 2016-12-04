@@ -1,5 +1,5 @@
 "use strict"
-const express = require('express');
+let express = require('express');
 let multer = require('multer');
 
 let mimeToExt = {
