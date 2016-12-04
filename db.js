@@ -48,7 +48,6 @@ if(process.env.NODE_ENV == "PRODUCTION") {
    // our configuration file will be in json, so parse it and set the
    // conenction string appropriately!
    var conf = JSON.parse(data);
-   console.log(conf);
    dbconf = conf.dbconf;
 } else {
   dbconf = "mongodb://localhost/fu5p";

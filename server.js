@@ -38,6 +38,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'PRODUCTION') {
+  console.log('using build!!!');
   app.use(express.static('projClient/build'));
 }
 
@@ -97,5 +98,5 @@ app.post('/api/addItem', function(req, res) {
 });
 
 app.listen(app.get('port'), function() {
-  console.log("Find the server at: http://localhost:${app.get('port')}/"); // eslint-disable-line no-console
+
 });
