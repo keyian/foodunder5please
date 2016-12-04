@@ -42,6 +42,10 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
   app.use(express.static('projClient/build'));
 }
 
+// app.get("/", function(req, res) {
+//   res.send()
+// });
+
 app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, next) {
   console.log("we startin upload image");
   console.log(req.file);
@@ -98,5 +102,6 @@ app.post('/api/addItem', function(req, res) {
 });
 
 app.listen(app.get('port'), function() {
-
+  console.log("recording port???");
+  console.log(app.get('port'));
 });
