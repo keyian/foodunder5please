@@ -1,5 +1,3 @@
-console.log("we go to start client still");
-console.log(process.env.NODE_ENV);
 if(process.env.NODE_ENV === "PRODUCTION") {
   var args = [ 'build' ];
 } else {
