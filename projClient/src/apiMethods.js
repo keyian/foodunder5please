@@ -19,7 +19,6 @@ exports.addItem = function(item) {
       }
       // Examine the text in the response
       response.text().then(function(data) {
-        console.log(process.env);
         //return and then post to dom
         console.log(data);
         item.uploadedImagePath = data;
