@@ -1,7 +1,7 @@
 "use strict"
 var mongoose = require('mongoose');
 
-dbconf="";
+let dbconf="";
 
 var User = mongoose.Schema({
   // username, password provided by plugin
