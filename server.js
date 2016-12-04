@@ -42,15 +42,14 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
   app.use(express.static('projClient/build'));
 }
 
-app.post('/api/uploadImage', upload.single('itemImage'), ((req, res, next) => {
+app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, next) {
   console.log("we startin upload image");
   console.log(req.file);
   res.send(req.file.path);
 }));
 
-app.post('/api/addItem', (req, res) => {
+app.post('/api/addItem', function(req, res) {
   //***! check for restaurant to validate
-
   let item = req.body;
   console.log(item);
   //for now, just make the restaurant
@@ -98,6 +97,6 @@ app.post('/api/addItem', (req, res) => {
 
 });
 
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), function() {
   console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
