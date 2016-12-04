@@ -1,4 +1,3 @@
-"use strict"
 let express = require('express');
 let multer = require('multer');
 
