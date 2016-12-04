@@ -1,3 +1,4 @@
+"use strict"
 const express = require('express');
 let multer = require('multer');
 
@@ -37,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Express only serves static assets in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'PRODUCTION') {
   app.use(express.static('projClient/build'));
 }
 
