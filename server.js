@@ -1,35 +1,35 @@
-let express = require('express');
-let multer = require('multer');
+var express = require('express');
+var multer = require('multer');
 
-let mimeToExt = {
+var mimeToExt = {
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
   "image/png": "png"
 }
 
-let storage = multer.diskStorage({
+var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'projClient/public/uploads')
   },
   filename: function (req, file, cb) {
-    let ext = "." + mimeToExt[file.mimetype];
+    var ext = "." + mimeToExt[file.mimetype];
     cb(null, file.fieldname + '-' + Date.now()+ext);
   }
 });
-let upload  = multer({storage: storage});
+var upload  = multer({storage: storage});
 
 
 // check if you actually need to
 require('./db');
-let mongoose = require('mongoose');
-let Restaurant = mongoose.model("Restaurant");
-let Item = mongoose.model("Item");
+var mongoose = require('mongoose');
+var Restaurant = mongoose.model("Restaurant");
+var Item = mongoose.model("Item");
 
 const app = express();
 
 const fs = require('fs');
 
-let bodyParser = require("body-parser");
+var bodyParser = require("body-parser");
 
 app.set('port', (process.env.PORT || 3001));
 
@@ -49,7 +49,7 @@ app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, nex
 
 app.post('/api/addItem', function(req, res) {
   //***! check for restaurant to validate
-  let item = req.body;
+  var item = req.body;
   console.log(item);
   //for now, just make the restaurant
   new Restaurant({
@@ -65,7 +65,7 @@ app.post('/api/addItem', function(req, res) {
         console.log("we got an image file yo -- not going through this part of the api though");
         //instead use fetch to go to different route and add image from there...
       //   fs.readFile(item.itemImageFile.path, function (err, data) {
-      //     let itemImgPath = __dirname + "/uploads/uploadedFileName";
+      //     var itemImgPath = __dirname + "/uploads/uploadedFileName";
       //     fs.writeFile(itemImgPath, data, function (err) {
       //       console.log(err);
       //   });
