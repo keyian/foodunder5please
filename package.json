@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "babel-node server.js",
-    "client": "babel-node start-client.js"
+    "server": "babel-node --harmony server.js",
+    "client": "babel-node --harmony start-client.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "concurrently": "^3.1.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "multer": "^1.2.0"
   }
