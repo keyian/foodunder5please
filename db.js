@@ -1,6 +1,8 @@
 "use strict"
 var mongoose = require('mongoose');
 
+dbconf="";
+
 var User = mongoose.Schema({
   // username, password provided by plugin
   list:  [{ type: Array, required: true }],
@@ -47,7 +49,8 @@ if(process.env.NODE_ENV == "PRODUCTION") {
    // our configuration file will be in json, so parse it and set the
    // conenction string appropriately!
    let conf = JSON.parse(data);
-   let dbconf = conf.dbconf;
+   console.log(conf);
+   dbconf = conf.dbconf;
 } else {
   dbconf = "mongodb://localhost/fu5p";
 }
