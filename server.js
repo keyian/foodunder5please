@@ -7,9 +7,16 @@ var mimeToExt = {
   "image/png": "png"
 }
 
+var saveLoc = "";
+if(process.env.NODE_ENV === "PRODUCTION") {
+  saveLoc = 'projClient/build/uploads';
+} else {
+  saveLoc = 'projClient/public/uploads';
+}
 var storage = multer.diskStorage({
+
   destination: function (req, file, cb) {
-    cb(null, 'projClient/public/uploads')
+    cb(null, saveLoc)
   },
   filename: function (req, file, cb) {
     var ext = "." + mimeToExt[file.mimetype];
