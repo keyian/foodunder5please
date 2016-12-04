@@ -9,7 +9,7 @@ var mimeToExt = {
 
 var saveLoc = "";
 if(process.env.NODE_ENV === "PRODUCTION") {
-  saveLoc = 'projClient/build/uploads';
+  saveLoc = 'projClient/build/images';
 } else {
   saveLoc = 'projClient/public/uploads';
 }
