@@ -7,11 +7,13 @@ var mimeToExt = {
   "image/png": "png"
 }
 
+const imgLoc = "images/uploads";
+
 var saveLoc = "";
 if(process.env.NODE_ENV === "PRODUCTION") {
-  saveLoc = 'projClient/build/images/uploads';
+  saveLoc = 'projClient/build/'+imgLoc;
 } else {
-  saveLoc = 'projClient/public/images/uploads';
+  saveLoc = 'projClient/public/'+imgLoc;
 }
 var storage = multer.diskStorage({
 
@@ -31,8 +33,11 @@ require('./db');
 var mongoose = require('mongoose');
 var Restaurant = mongoose.model("Restaurant");
 var Item = mongoose.model("Item");
+var User = mongoose.model("User");
 
 const app = express();
+
+var http = require('http').Server(app);
 
 const fs = require('fs');
 
@@ -49,14 +54,52 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
   app.use(express.static('projClient/build'));
 }
 
-// app.get("/", function(req, res) {
-//   res.send()
-// });
+app.get("/api/getItems", function(req, res) {
+  Item.find({}, function(err, items) {
+    if(err) {
+      console.log("error while getting items. me sad sad. ", err);
+      return;
+    } else {
+      res.send(items);
+    }
+  });
+});
+
+
+app.post("/api/addUser", (function(req, res) {
+  var user = req.body;
+  User.findOne({"fbID": user.id}, function(err, person) {
+    if(err) {
+      console.log("error while adding user ", err);
+      return;
+    }
+    if(person == null) {
+      // save into user
+      new User({
+        fbID: user.id,
+        name: user.name
+      }).save(function(err, person, count) {
+        if(err) {
+          console.log("error while saving user to db ", err);
+          return;
+        }
+
+      })
+    } else {
+      // we're good.
+    }
+    res.send(person);
+  });
+}));
 
 app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, next) {
   console.log("we startin upload image");
   console.log(req.file);
-  res.send(req.file.path);
+  //we should only get the path AFTER whatever is static...
+  console.log(express.static);
+  let path = req.file.path;
+  path = path.substr(path.indexOf(imgLoc));
+  res.send(path);
 }));
 
 app.post('/api/addItem', function(req, res) {

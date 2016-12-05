@@ -3,9 +3,10 @@ var mongoose = require('mongoose');
 var dbconf="";
 
 var User = mongoose.Schema({
-  // username, password provided by plugin
-  list:  [{ type: Array, required: true }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+  fbID: [{type: Number, required: true}],
+  name: [{type: String, required: true}],
+  list:  [{ type: Array, required: false }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
 });
 
 var Item = mongoose.Schema({

@@ -8,14 +8,13 @@ import AddItemForm from '../AddItemForm';
 
 
 export default class Header extends Component {
-  
 
   render() {
     return (
       <div>
         <Logo />
-        <Login />
-        <AddItemForm onItemSubmit={this.props.onItemSubmit} />
+        <Login loginCB={this.props.loginCB} logoutCB={this.props.logoutCB} />
+        <AddItemForm onItemSubmit={this.props.onAddItemSubmit} />
       </div>
 
     );

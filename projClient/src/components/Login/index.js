@@ -5,10 +5,11 @@ import React, { Component } from 'react';
 
 import './style.css';
 
+let api = require('../../apiMethods.js');
+
 export default class Login extends Component {
   componentDidMount() {
     window.fbAsyncInit = function() {
-
 
       FB.init({
         appId      : '733666113451028',
@@ -46,16 +47,23 @@ export default class Login extends Component {
   // successful.  See statusChangeCallback() for when this call is made.
   loginSuccess() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        response.name + ' is currently logged in.';
-    });
+    FB.api('/me', this.fbMeCB.bind(this));
     document.getElementById('loginLink').style.display = "none";
     document.getElementById('logoutLink').style.display = "block";
   }
 
+  fbMeCB(response) {
+    console.log('Successful login for: ' + response.name);
+    console.log(response);
+    document.getElementById('status').innerHTML =
+      response.name + ' is currently logged in.';
+    api.addUser(response);
+    this.props.loginCB(response);
+  }
+
   logoutSuccess() {
+    //***! call to the api to add user or fetch user's info...
+    this.props.logoutCB();
     document.getElementById('status').innerHTML = "";
     document.getElementById('loginLink').style.display = "block";
     document.getElementById('logoutLink').style.display = "none";
@@ -72,6 +80,7 @@ export default class Login extends Component {
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
+      console.log("status change connected");
       // Logged into your app and Facebook.
       this.loginSuccess();
     } else if (response.status === 'not_authorized') {
@@ -86,9 +95,6 @@ export default class Login extends Component {
     }
   }
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
   checkLoginState() {
     FB.getLoginStatus(function(response) {
       this.statusChangeCallback(response);
