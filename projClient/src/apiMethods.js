@@ -1,5 +1,14 @@
 let exports = module.exports = {};
 
+let io = require('socket.io-client');
+let socket = io();
+
+exports.socketItemAdded = function(item) {
+  console.log("item added api callback— for socket.io");
+  socket.emit("item added", item);
+  return false;
+}
+
 exports.addItem = function(item) {
   console.log("hello");
   console.log(item);
@@ -39,9 +48,9 @@ exports.addItem = function(item) {
             }
 
             // Examine the text in the response
-            response.text().then(function(data) {
-              //return and then post to dom
-              console.log(data);
+            response.json().then(function(item) {
+              console.log("before socket item added");
+              exports.socketItemAdded(item);
             });
           }
         )

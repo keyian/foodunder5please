@@ -35,9 +35,7 @@ var Restaurant = mongoose.model("Restaurant");
 var Item = mongoose.model("Item");
 var User = mongoose.model("User");
 
-const app = express();
-
-var http = require('http').Server(app);
+var app = express();
 
 const fs = require('fs');
 
@@ -96,7 +94,6 @@ app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, nex
   console.log("we startin upload image");
   console.log(req.file);
   //we should only get the path AFTER whatever is static...
-  console.log(express.static);
   let path = req.file.path;
   path = path.substr(path.indexOf(imgLoc));
   res.send(path);
@@ -118,13 +115,6 @@ app.post('/api/addItem', function(req, res) {
     } else {
       if(item.itemImageFile) {
         console.log("we got an image file yo -- not going through this part of the api though");
-        //instead use fetch to go to different route and add image from there...
-      //   fs.readFile(item.itemImageFile.path, function (err, data) {
-      //     var itemImgPath = __dirname + "/uploads/uploadedFileName";
-      //     fs.writeFile(itemImgPath, data, function (err) {
-      //       console.log(err);
-      //   });
-      // });
       }
       new Item({
         name: item.itemName,
@@ -140,7 +130,7 @@ app.post('/api/addItem', function(req, res) {
           rest.items.push(item);
           rest.save(function(err, rest, count) {
             // do nothing
-            res.send("we good chachi!");
+            res.send(item);
           });
           // ***! send item to dom
           // return item;
@@ -151,7 +141,18 @@ app.post('/api/addItem', function(req, res) {
 
 });
 
-app.listen(app.get('port'), function() {
-  console.log("recording port???");
-  console.log(app.get('port'));
+// SOCKET STUFF
+
+var server = app.listen(app.get('port'), function() {
+  console.log("listening on port ", app.get('port'));
+});
+
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on("item added", function(item){
+    console.log("server side item added event called");
+    io.emit("item added", item);
+  });
 });

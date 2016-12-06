@@ -9,8 +9,11 @@ let api = require('../../apiMethods.js');
 class App extends Component {
   constructor(props) {
     super(props);
+    let io = require('socket.io-client');
+    let socket = io();
     this.state = {
-      user: ""
+      user: "",
+      socket: socket
     };
   }
   userLogin(user) {
@@ -31,9 +34,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={api.addItem} />
+        <Header socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={api.addItem} />
         <Link to={`/user/${this.state.user.id}`}>{this.state.user.name}</Link>
-        {this.props.children}
+        {(this.props.children).map((child) => React.cloneElement(child, { socket: this.props.socket }))}
       </div>
     );
   }

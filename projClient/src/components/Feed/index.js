@@ -6,10 +6,21 @@ import FeedItem from '../FeedItem';
 
 let api = require('../../apiMethods.js');
 
+
 //use api to get all posts
 //enter the information of the posts via loop into feed items
 //display feed items via loop
 export default class Feed extends Component {
+
+  realTimeAddItem(item) {
+    console.log("client side add item emission received");
+
+    let oldItems = this.state.items;
+    oldItems.unshift("blooby");
+    this.setState({
+      items: oldItems
+    });
+  }
 
   constructor(props) {
     super(props);
@@ -21,7 +32,8 @@ export default class Feed extends Component {
   componentDidMount() {
     // fetch all the items... actually do this in app...?
     api.getItems(this.gotItems.bind(this));
-    // iterate through them
+
+    this.props.socket.on('item added', this.realTimeAddItem.bind(this));
   }
 
   gotItems(items) {

@@ -10,6 +10,7 @@ import './style.css';
 export default class AddItemForm extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       itemName: undefined,
       itemCost: undefined,
