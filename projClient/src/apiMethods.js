@@ -4,6 +4,37 @@ module.exports = class APIMethods {
     this.item = {};
   }
 
+  getComments(cb, item) {
+    let reqURL = '/api/getComments';
+    reqURL += '?item='+item;
+    fetch(reqURL, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(
+      function(response) {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(data) {
+          console.log("get comments");
+          console.log("here is comment data", data);
+          //return so feed can present
+          return cb(data);
+        });
+      }
+    )
+    .catch(function(err) {
+      console.log("fetch error... ", err);
+    });
+  }
+
   addItem(item) {
     this.item = item;
     console.log("in add item", this);
@@ -68,6 +99,39 @@ module.exports = class APIMethods {
     console.log("item added api callback— for socket.io");
     this.socket.emit("item added", item);
     return false;
+  }
+
+  submitComment(comment, item) {
+    console.log("at submit comment...", comment, item);
+    let commentObject = {comment: comment, item: item};
+    //***! eventually validate comment?
+    fetch('/api/addComment', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(commentObject)
+    }).then(this.addCommentInitialCallback.bind(this))
+    .catch(function(err) {
+      console.log("fetch error... ", err);
+    });
+  }
+
+  addCommentInitialCallback(response) {
+    if(response.status !== 200) {
+      console.log("oh no, looks like there was a problem. Response Status Code: ", response.status);
+      return;
+    }
+    response.json().then(this.addCommentResponseCallback.bind(this));
+  }
+
+  addCommentResponseCallback(comment) {
+    this.socketCommentAdded(comment);
+  }
+
+  socketCommentAdded(comment) {
+    this.socket.emit("comment added", comment);
   }
 
   getItems(cb) {

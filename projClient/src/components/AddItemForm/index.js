@@ -10,10 +10,10 @@ import './style.css';
 export default class AddItemForm extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
-      itemName: undefined,
-      itemCost: undefined,
+      itemName: "",
+      itemCost: "",
       address: "",
       itemImageFile: ""
     };
@@ -22,12 +22,10 @@ export default class AddItemForm extends Component {
   }
 
   onChangeName(e) {
-    e.preventDefault();
     this.setState({itemName: e.target.value});
   }
 
   onChangeCost(e) {
-    e.preventDefault();
     this.setState({itemCost: e.target.value});
   }
 

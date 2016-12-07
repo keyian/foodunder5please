@@ -34,6 +34,7 @@ var mongoose = require('mongoose');
 var Restaurant = mongoose.model("Restaurant");
 var Item = mongoose.model("Item");
 var User = mongoose.model("User");
+var Comment = mongoose.model("Comment");
 
 var app = express();
 
@@ -53,7 +54,7 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
 }
 
 app.get("/api/getItems", function(req, res) {
-  Item.find({}).sort({createdAt: -1 }).exec(function(err, items) {
+  Item.find({}).sort({createdAt: -1 }).populate('restaurant').exec(function(err, items) {
     if(err) {
       console.log("error while getting items. me sad sad. ", err);
       return;
@@ -63,6 +64,33 @@ app.get("/api/getItems", function(req, res) {
   });
 });
 
+app.get("/api/getComments", function(req, res) {
+  console.log("in api get comments");
+  console.log(req.query.item);
+  let item = req.query.item;
+  Comment.find({'item': item}).exec(
+    function(err, comments, count) {
+      res.send(comments);
+    }
+  );
+})
+
+app.post("/api/addComment", function(req, res) {
+  var comment = req.body;
+  console.log(comment);
+  console.log(comment.item);
+  new Comment({
+    text: comment.comment,
+    item: comment.item
+  }).save(function(err, comment) {
+    if(err){
+      console.log("uh oh, error saving new comment 2 db", err);
+    } else {
+      console.log("post save cmment return", comment);
+      res.send(comment);
+    }
+  })
+});
 
 app.post("/api/addUser", (function(req, res) {
   var user = req.body;
@@ -155,4 +183,14 @@ io.on('connection', function(socket){
     console.log("server side item added event called");
     io.emit("item added", item);
   });
+
+  socket.on("comment added", function(comment) {
+    console.log("server side comment added event called");
+
+    io.emit("comment added", comment);
+  });
+
+  socket.on("disconnect", function() {
+    console.log("user disconnected");
+  })
 });

@@ -14,9 +14,9 @@ export default class Feed extends Component {
 
   realTimeAddItem(item) {
     console.log("client side add item emission received");
-    console.log(item);
+    console.log(item.restaurant._id);
     console.log(this.state.items);
-    item.restaurant = item.restaurant.id;
+    item.restaurant = item.restaurant._id;
     console.log("now item restaurant is...", item.restaurant)
     let oldItems = this.state.items;
     oldItems.unshift(item);
@@ -31,11 +31,12 @@ export default class Feed extends Component {
     let api = new apiMethods(this.props.socket)
     this.state = {
       items: [],
+      restaurants: [],
       api: api
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // fetch all the items... actually do this in app...?
     this.state.api.getItems(this.gotItems.bind(this));
 
@@ -43,12 +44,17 @@ export default class Feed extends Component {
   }
 
   gotItems(items) {
-    console.log(items)
     let itemList = [];
-    items.forEach((item) => itemList.push(item));
-    console.log(itemList)
+    let restaurantList = [];
+    items.forEach(function(item) {
+      restaurantList.push(item.restaurant);
+      item.restaurant = item.restaurant._id;
+      itemList.push(item);
+    });
+    console.log(itemList);
     this.setState({
-      items: itemList
+      items: itemList,
+      restaurants: restaurantList
     });
     console.log(this.state.items);
   }
@@ -57,7 +63,7 @@ export default class Feed extends Component {
     return (
       <div>
         {this.state.items.map(
-          (item, i)=> <FeedItem key={i} item={item} />)
+          (item, i)=> <FeedItem key={i} item={item} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
         }
       </div>
     );

@@ -7,6 +7,9 @@ var User = mongoose.Schema({
   name: [{type: String, required: true}],
   list:  [{ type: Array, required: false }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
+},
+{
+  timestamps: true
 });
 
 var Item = mongoose.Schema({
@@ -23,7 +26,11 @@ var Item = mongoose.Schema({
 
 var Comm = mongoose.Schema({
   text: {type: String, required: true},
+  item: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item'},
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+},
+{
+  timestamps: true
 });
 
 var Restaurant = mongoose.Schema({
@@ -31,6 +38,9 @@ var Restaurant = mongoose.Schema({
   geoLocation: {type: Array, required: true},
   name: {type: String, required: true},
   items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item"}
+},
+{
+  timestamps: true
 });
 
 mongoose.model("User", User);
