@@ -13,7 +13,7 @@ export default class Header extends Component {
     return (
       <div>
         <Logo />
-        <Login loginCB={this.props.loginCB} logoutCB={this.props.logoutCB} />
+        <Login socket={this.props.socket} loginCB={this.props.loginCB} logoutCB={this.props.logoutCB} />
         <AddItemForm onItemSubmit={this.props.onAddItemSubmit} />
       </div>
 

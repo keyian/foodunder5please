@@ -5,9 +5,17 @@ import React, { Component } from 'react';
 
 import './style.css';
 
-let api = require('../../apiMethods.js');
+let apiMethods = require('../../apiMethods.js');
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    let api = new apiMethods(this.props.socket)
+    this.state = {
+      api: api
+    };
+  }
+
   componentDidMount() {
     window.fbAsyncInit = function() {
 
@@ -57,7 +65,7 @@ export default class Login extends Component {
     console.log(response);
     document.getElementById('status').innerHTML =
       response.name + ' is currently logged in.';
-    api.addUser(response);
+    this.state.api.addUser(response);
     this.props.loginCB(response);
   }
 

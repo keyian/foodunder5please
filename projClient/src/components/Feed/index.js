@@ -4,7 +4,7 @@ import './style.css';
 
 import FeedItem from '../FeedItem';
 
-let api = require('../../apiMethods.js');
+let apiMethods = require('../../apiMethods.js');
 
 
 //use api to get all posts
@@ -14,9 +14,13 @@ export default class Feed extends Component {
 
   realTimeAddItem(item) {
     console.log("client side add item emission received");
-
+    console.log(item);
+    console.log(this.state.items);
+    item.restaurant = item.restaurant.id;
+    console.log("now item restaurant is...", item.restaurant)
     let oldItems = this.state.items;
-    oldItems.unshift("blooby");
+    oldItems.unshift(item);
+    console.log("olditems unshift object", oldItems);
     this.setState({
       items: oldItems
     });
@@ -24,14 +28,16 @@ export default class Feed extends Component {
 
   constructor(props) {
     super(props);
+    let api = new apiMethods(this.props.socket)
     this.state = {
-      items: []
+      items: [],
+      api: api
     };
   }
 
   componentDidMount() {
     // fetch all the items... actually do this in app...?
-    api.getItems(this.gotItems.bind(this));
+    this.state.api.getItems(this.gotItems.bind(this));
 
     this.props.socket.on('item added', this.realTimeAddItem.bind(this));
   }
@@ -51,7 +57,7 @@ export default class Feed extends Component {
     return (
       <div>
         {this.state.items.map(
-          (item)=> <FeedItem item={item} />)
+          (item, i)=> <FeedItem key={i} item={item} />)
         }
       </div>
     );

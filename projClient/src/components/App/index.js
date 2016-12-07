@@ -4,16 +4,18 @@ import Header from '../Header';
 import './style.css';
 import { Link } from 'react-router';
 
-let api = require('../../apiMethods.js');
+let apiMethods = require('../../apiMethods.js');
 
 class App extends Component {
   constructor(props) {
     super(props);
     let io = require('socket.io-client');
     let socket = io();
+    let api = new apiMethods(socket);
     this.state = {
       user: "",
-      socket: socket
+      socket: socket,
+      api: api
     };
   }
   userLogin(user) {
@@ -34,9 +36,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={api.addItem} />
+        <Header socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
         <Link to={`/user/${this.state.user.id}`}>{this.state.user.name}</Link>
-        {(this.props.children).map((child) => React.cloneElement(child, { socket: this.props.socket }))}
+        {React.Children.map(this.props.children, (child) => React.cloneElement(child, { socket: this.state.socket }))}
       </div>
     );
   }

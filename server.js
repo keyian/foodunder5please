@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
 }
 
 app.get("/api/getItems", function(req, res) {
-  Item.find({}, function(err, items) {
+  Item.find({}).sort({createdAt: -1 }).exec(function(err, items) {
     if(err) {
       console.log("error while getting items. me sad sad. ", err);
       return;
