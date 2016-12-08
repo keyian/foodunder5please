@@ -1,0 +1,21 @@
+.filled, .notFilled {
+  border: 3px solid #FF6666;
+  width: 20px;
+  height: 20px;
+}
+
+.filled {
+  background-color: #FF6666;
+}
+
+.notFilled {
+  background-color: white;
+}
+
+.hideLikeHeart {
+  display: none;
+}
+
+.likeHeart {
+  margin: auto;
+}

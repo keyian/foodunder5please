@@ -48,13 +48,15 @@ export default class CommentBox extends Component {
 
   submitComment() {
     console.log("in commentbox submitcomment...");
-    this.state.api.submitComment.apply(this.state.api, [this.state.input, this.props.item]);
+    console.log("comment added client side by", this.props.user);
+    this.state.api.submitComment.apply(this.state.api, [this.state.input, this.props.item, this.props.user._id]);
     this.setState({input: ""});
   }
 
   realTimeAddComment(comment) {
     console.log(this.props.item);
     console.log(comment.item);
+    console.log("in realTimeAddComment; this is user:", this.props.user);
     if(comment.item === this.props.item) {
       let nuComments = this.state.comments;
       nuComments.push(comment);
@@ -65,12 +67,10 @@ export default class CommentBox extends Component {
   render() {
     return (
       <div>
-      <ul>
-      {this.state.comments.map(
-        (comment, i)=> <li key={i}>{comment.text}</li>)
-      }
-      </ul>
-      <textarea value={this.state.input}style={{resize: "none"}} rows="4" cols="50" placeholder="Comment..." onChange={this.handleChange.bind(this)} onKeyPress={this.handleEnter.bind(this)}>
+        <ul>
+        {this.state.comments.map((comment, i)=> <li key={i}>{comment.text}</li>)}
+        </ul>
+      <textarea className={(this.props.login) ? ("showCommentInput"):("hideCommentInput")} value={this.state.input}style={{resize: "none"}} rows="4" cols="50" placeholder="Comment..." onChange={this.handleChange.bind(this)} onKeyPress={this.handleEnter.bind(this)}>
       </textarea>
       </div>
     );

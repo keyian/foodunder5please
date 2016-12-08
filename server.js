@@ -77,45 +77,55 @@ app.get("/api/getComments", function(req, res) {
 
 app.post("/api/addComment", function(req, res) {
   var comment = req.body;
-  console.log(comment);
+  console.log("in addComment", comment);
   console.log(comment.item);
   new Comment({
     text: comment.comment,
-    item: comment.item
+    item: comment.item,
+    user: comment.user
   }).save(function(err, comment) {
     if(err){
       console.log("uh oh, error saving new comment 2 db", err);
+      return;
     } else {
-      console.log("post save cmment return", comment);
-      res.send(comment);
+      User.findOne({_id: comment.user}, function(err, user) {
+        if(err) {
+          console.log("oops error at user comments array update", err);
+          return;
+        }        // do nothing...
+        //push to user comments
+        user.comments.push(comment._id);
+
+        user.save(function(err, user) {
+          console.log("updated user comments array for", user);
+          res.send(comment);
+        });
+      });
     }
-  })
+  });
 });
 
-app.post("/api/addUser", (function(req, res) {
-  var user = req.body;
-  User.findOne({"fbID": user.id}, function(err, person) {
+app.post("/api/addAndOrGetUser", (function(req, res) {
+  var userLogin = req.body;
+
+  User.findOne({fbID: userLogin.id}, function(err, user) {
     if(err) {
-      console.log("error while adding user ", err);
+      console.log("err while looking for user", err);
       return;
     }
-    if(person == null) {
-      // save into user
+    //not an error; is user null? if yes, create the user; if no, return the user
+    if(user === null) {
       new User({
-        fbID: user.id,
-        name: user.name
-      }).save(function(err, person, count) {
-        if(err) {
-          console.log("error while saving user to db ", err);
-          return;
-        }
-
-      })
+        fbID: userLogin.id,
+        name: userLogin.name
+      }).save(function(err, newUser) {
+        res.send(newUser);
+      });
     } else {
-      // we're good.
+      res.send(user);
     }
-    res.send(person);
   });
+
 }));
 
 app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, next) {
@@ -153,7 +163,7 @@ app.post('/api/addItem', function(req, res) {
         videoUrl: "***! need to setup check for videoUrl"
       }).save(function(err, item, count) {
         if(err) {
-          console.log("o no item error idk what to do lol ***!");
+          console.log("o no item error idk what to do lol ***!", err);
         } else {
           rest.items.push(item);
           rest.save(function(err, rest, count) {

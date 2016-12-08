@@ -3,8 +3,16 @@
   position: absolute;
   top: 15px;
   right: 30px;
+  width: 20%;
 }
 
 #logoutLink {
   display: none;
+}
+
+#status {
+  width: 100%;
+  position: absolute;
+  right: 15px;
+
 }

@@ -7,6 +7,8 @@ import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 
 import './style.css';
 
+let classNames = require('classnames');
+
 export default class AddItemForm extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,8 @@ export default class AddItemForm extends Component {
       itemName: "",
       itemCost: "",
       address: "",
-      itemImageFile: ""
+      itemImageFile: "",
+      hideForm: true
     };
 
     this.onChangeAdd = (address) => this.setState({address});
@@ -40,8 +43,9 @@ export default class AddItemForm extends Component {
   //***! validate image for FILE TYPE, and SIZE!!!
 
   showHideForm(e) {
-    let form = document.getElementById("addItemForm");
-    ((form.style.display === "none") ? (form.style.display = "block") : (form.style.display = "none"));
+    this.setState({
+      hideForm: !this.state.hideForm
+    })
   }
 
   handleSubmit(e) {
@@ -96,17 +100,20 @@ export default class AddItemForm extends Component {
         }
       }
     });
-
-
-
   }
 
   render() {
+    let boxClasses = classNames({
+      hideAddItemForm: !this.props.login
+    });
+    let formClasses = classNames({
+      hideForm: this.state.hideForm
+    });
+    console.log(formClasses);
     return (
-
-      <div id="addItemFormBox">
-        <button onClick={this.showHideForm}>Add Item</button>
-        <form id="addItemForm" method="POST" onSubmit={this.handleSubmit.bind(this)} action="" encType="multipart/form-data">
+      <div id="addItemFormBox" className={boxClasses}>
+        <button onClick={this.showHideForm.bind(this)}>Add Item</button>
+        <form className={formClasses} id="addItemForm" method="POST" onSubmit={this.handleSubmit.bind(this)} action="" encType="multipart/form-data">
           <div>
             <label htmlFor="itemName">Name of Item:</label>
             <input type="text" name="itemName" id="itemName" value={this.state.itemName} onChange={this.onChangeName.bind(this)} />

@@ -16,13 +16,17 @@ export default class Feed extends Component {
     console.log("client side add item emission received");
     console.log(item.restaurant._id);
     console.log(this.state.items);
+    let nuRestaurants = this.state.restaurants;
+    nuRestaurants.unshift(item.restaurant);
     item.restaurant = item.restaurant._id;
     console.log("now item restaurant is...", item.restaurant)
-    let oldItems = this.state.items;
-    oldItems.unshift(item);
-    console.log("olditems unshift object", oldItems);
+    let nuItems = this.state.items;
+    nuItems.unshift(item);
+
+    console.log("nuitems unshift object", nuItems);
     this.setState({
-      items: oldItems
+      items: nuItems,
+      restaurants: nuRestaurants
     });
   }
 
@@ -56,6 +60,7 @@ export default class Feed extends Component {
       items: itemList,
       restaurants: restaurantList
     });
+    console.log("restaurants...", this.state.restaurants);
     console.log(this.state.items);
   }
 
@@ -63,7 +68,7 @@ export default class Feed extends Component {
     return (
       <div>
         {this.state.items.map(
-          (item, i)=> <FeedItem key={i} item={item} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
+          (item, i)=> <FeedItem key={i} item={item} user={this.props.user} login={this.props.login} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
         }
       </div>
     );

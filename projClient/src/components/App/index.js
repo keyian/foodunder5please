@@ -15,19 +15,22 @@ class App extends Component {
     this.state = {
       user: "",
       socket: socket,
-      api: api
+      api: api,
+      login: false
     };
   }
   userLogin(user) {
-    console.log(user);
+    console.log("client side user... hmm", user);
     this.setState(
-      {user: user}
+      {user: user,
+      login: true}
     );
   }
   userLogout() {
     console.log("logout is correctly working");
     this.setState(
-      {user: ""}
+      {user: "",
+      login: false}
     );
   }
   componentDidMount() {
@@ -36,9 +39,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
+        <Header login={this.state.login} user={this.state.user} socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
         <Link to={`/user/${this.state.user.id}`}>{this.state.user.name}</Link>
-        {React.Children.map(this.props.children, (child) => React.cloneElement(child, { socket: this.state.socket }))}
+        {React.Children.map(this.props.children, (child) => React.cloneElement(child, { login: this.state.login, user: this.state.user, socket: this.state.socket }))}
       </div>
     );
   }

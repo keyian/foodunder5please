@@ -12,7 +12,8 @@ export default class Login extends Component {
     super(props);
     let api = new apiMethods(this.props.socket)
     this.state = {
-      api: api
+      api: api,
+      login: false
     };
   }
 
@@ -56,25 +57,23 @@ export default class Login extends Component {
   loginSuccess() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', this.fbMeCB.bind(this));
-    document.getElementById('loginLink').style.display = "none";
-    document.getElementById('logoutLink').style.display = "block";
   }
 
   fbMeCB(response) {
     console.log('Successful login for: ' + response.name);
     console.log(response);
-    document.getElementById('status').innerHTML =
-      response.name + ' is currently logged in.';
-    this.state.api.addUser(response);
-    this.props.loginCB(response);
+    this.state.api.addAndOrGetUser(response, this.setDBUser.bind(this));
+  }
+
+  setDBUser(user) {
+    this.props.loginCB(user);
+    this.setState({login: true});
   }
 
   logoutSuccess() {
     //***! call to the api to add user or fetch user's info...
+    this.setState({login: false});
     this.props.logoutCB();
-    document.getElementById('status').innerHTML = "";
-    document.getElementById('loginLink').style.display = "block";
-    document.getElementById('logoutLink').style.display = "none";
   }
 
   // change text and event listener back to login
@@ -93,13 +92,11 @@ export default class Login extends Component {
       this.loginSuccess();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-      'into Facebook.';
+
     }
   }
 
@@ -110,19 +107,18 @@ export default class Login extends Component {
   }
 
   handleClickLogin() {
-    FB.login(this.checkLoginState());
-  }
-
-  handleClickLogout() {
-    FB.logout(this.logoutSuccess());
+    if(this.state.login === false) {
+      FB.login(this.checkLoginState());
+    } else {
+      FB.logout(this.logoutSuccess());
+    }
   }
 
   render() {
     return (
       <div id="login">
-        <a id="loginLink" href="#" onClick={this.handleClickLogin.bind(this)}>Login</a>
-        <a id="logoutLink" href="#" onClick={this.handleClickLogout.bind(this)}>Logout</a>
-        <div id="status"></div>
+        <a id="loginLink" href="#" onClick={this.handleClickLogin.bind(this)}>{(this.state.login)?("Logout"):("Login")}</a>
+        <p id="status">{(this.state.login)?(`Hello ${this.props.user.name}`):("Please login with Facebook in order to add items, comment on items, like items, and see your items mapped out.")}</p>
       </div>
     );
   }

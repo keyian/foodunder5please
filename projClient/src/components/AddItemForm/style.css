@@ -1,10 +1,14 @@
-#addItemForm {
-  display: none;
-}
-
 #addItemFormBox {
   text-align: left;
   position: absolute;
   top: 15px;
   left: 30px;
+}
+
+.hideAddItemForm {
+  display: none;
+}
+
+.hideForm {
+  display: none;
 }

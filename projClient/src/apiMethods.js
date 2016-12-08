@@ -101,9 +101,9 @@ module.exports = class APIMethods {
     return false;
   }
 
-  submitComment(comment, item) {
-    console.log("at submit comment...", comment, item);
-    let commentObject = {comment: comment, item: item};
+  submitComment(comment, item, user) {
+    console.log("at submit comment...", comment, item, user);
+    let commentObject = {comment: comment, item: item, user: user};
     //***! eventually validate comment?
     fetch('/api/addComment', {
       method: 'POST',
@@ -161,8 +161,8 @@ module.exports = class APIMethods {
     });
   }
 
-  addUser(user) {
-    fetch('/api/addUser', {
+  addAndOrGetUser(user, cb) {
+    fetch('/api/addAndOrGetUser', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -178,9 +178,11 @@ module.exports = class APIMethods {
         }
 
         // Examine the text in the response
-        response.text().then(function(data) {
+        response.json().then(function(data) {
           //return and then post to dom
-          console.log(data);
+          console.log("add user response", data);
+          //this should be user ID not FACEBOOK ID
+          cb(data);
         });
       }
     )

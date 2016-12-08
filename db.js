@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var dbconf="";
 
 var User = mongoose.Schema({
-  fbID: [{type: Number, required: true}],
-  name: [{type: String, required: true}],
-  list:  [{ type: Array, required: false }],
+  fbID: {type: Number, required: true},
+  name: {type: String, required: true},
+  favorites:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
 },
 {
@@ -27,7 +27,7 @@ var Item = mongoose.Schema({
 var Comm = mongoose.Schema({
   text: {type: String, required: true},
   item: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item'},
-  user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+  user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
 },
 {
   timestamps: true

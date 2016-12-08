@@ -5,3 +5,15 @@ textarea {
 ul {
   list-style: none;
 }
+
+.showCommentInput {
+  display: block;
+}
+
+.hideCommentInput {
+  display: none;
+}
+
+textarea {
+  margin: auto;
+}
