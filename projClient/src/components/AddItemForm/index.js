@@ -109,7 +109,6 @@ export default class AddItemForm extends Component {
     let formClasses = classNames({
       hideForm: this.state.hideForm
     });
-    console.log(formClasses);
     return (
       <div id="addItemFormBox" className={boxClasses}>
         <button onClick={this.showHideForm.bind(this)}>Add Item</button>

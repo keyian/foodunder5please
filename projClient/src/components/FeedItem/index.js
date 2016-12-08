@@ -16,7 +16,7 @@ export default class FeedItem extends Component {
       <div>
         <h1>{this.props.item.name} at {this.props.restaurant.name}</h1>
         <img src={this.props.item.imgPath} alt={this.props.item.name} />
-        <LikeHeart item={this.props.item._id} user={this.props.user} login={this.props.login} />
+        <LikeHeart item={this.props.item} user={this.props.user} login={this.props.login} socket={this.props.socket} />
         <CommentBox item={this.props.item._id} user={this.props.user} login={this.props.login} socket={this.props.socket} />
       </div>
     );

@@ -10,7 +10,7 @@ let apiMethods = require('../../apiMethods.js');
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    let api = new apiMethods(this.props.socket)
+    let api = new apiMethods(this.props.socket);
     this.state = {
       api: api,
       login: false

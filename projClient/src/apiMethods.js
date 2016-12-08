@@ -95,7 +95,6 @@ module.exports = class APIMethods {
   }
 
   socketItemAdded(item) {
-    console.log(this);
     console.log("item added api callback— for socket.io");
     this.socket.emit("item added", item);
     return false;
@@ -190,5 +189,40 @@ module.exports = class APIMethods {
       console.log("fetch error... ", err);
     });
   }
+
+  favoriteClick(userID, itemID, current) {
+    let userItemObject = {user: userID, item: itemID, isLiked: current};
+    //***! eventually validate comment?
+    fetch('/api/favoriteClick', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userItemObject)
+    }).then(this.favoriteClickInitialCallback.bind(this))
+    .catch(function(err) {
+      console.log("fetch error... ", err);
+    });
+  }
+
+  favoriteClickInitialCallback(response) {
+    if(response.status !== 200) {
+      console.log("oh no, looks like there was a problem. Response Status Code: ", response.status);
+      return;
+    }
+    response.json().then(this.favoriteClickResponseCallback.bind(this));
+  }
+
+  favoriteClickResponseCallback(userItemObject) {
+    this.socketFavoriteClick(userItemObject);
+  }
+
+  socketFavoriteClick(userItemObject) {
+    console.log("favorite click api callback— for socket.io");
+    this.socket.emit("favorite click", userItemObject);
+    return false;
+  }
+
 
 }

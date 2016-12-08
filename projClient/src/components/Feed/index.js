@@ -12,6 +12,16 @@ let apiMethods = require('../../apiMethods.js');
 //display feed items via loop
 export default class Feed extends Component {
 
+  constructor(props) {
+    super(props);
+    let api = new apiMethods(this.props.socket)
+    this.state = {
+      items: [],
+      restaurants: [],
+      api: api
+    };
+  }
+
   realTimeAddItem(item) {
     console.log("client side add item emission received");
     console.log(item.restaurant._id);
@@ -30,14 +40,15 @@ export default class Feed extends Component {
     });
   }
 
-  constructor(props) {
-    super(props);
-    let api = new apiMethods(this.props.socket)
-    this.state = {
-      items: [],
-      restaurants: [],
-      api: api
-    };
+  realTimeItemFavorite(item) {
+    let nuItems = this.state.items;
+    let changedItemIndex = nuItems.findIndex(function(oldItem) {
+      return item._id === oldItem._id;
+    });
+    nuItems[changedItemIndex] = item;
+    this.setState({
+      items: nuItems
+    });
   }
 
   componentWillMount() {
@@ -45,6 +56,7 @@ export default class Feed extends Component {
     this.state.api.getItems(this.gotItems.bind(this));
 
     this.props.socket.on('item added', this.realTimeAddItem.bind(this));
+    this.props.socket.on('item favorite change', this.realTimeItemFavorite.bind(this));
   }
 
   gotItems(items) {

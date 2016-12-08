@@ -19,6 +19,18 @@ class App extends Component {
       login: false
     };
   }
+
+  componentWillMount() {
+    this.state.socket.on("user favorite change", this.updateUser.bind(this));
+  }
+
+  updateUser(user) {
+    console.log("user favorite change was called... this is user object", user);
+    this.setState({
+      user: user
+    });
+  }
+
   userLogin(user) {
     console.log("client side user... hmm", user);
     this.setState(
@@ -40,7 +52,7 @@ class App extends Component {
     return (
       <div>
         <Header login={this.state.login} user={this.state.user} socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
-        <Link to={`/user/${this.state.user.id}`}>{this.state.user.name}</Link>
+        <Link to={`/user/${this.state.user._id}`}>{this.state.user.name}</Link>
         {React.Children.map(this.props.children, (child) => React.cloneElement(child, { login: this.state.login, user: this.state.user, socket: this.state.socket }))}
       </div>
     );

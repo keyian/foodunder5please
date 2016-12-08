@@ -2,24 +2,39 @@ import React, { Component } from 'react';
 
 import './style.css';
 let classNames = require('classnames');
+let apiMethods = require('../../apiMethods.js');
+
 
 export default class LikeHeart extends Component {
   constructor(props) {
     super(props);
+    let api = new apiMethods(this.props.socket);
+    console.log("user in likeheart", this.props.user);
     this.state = {
-      liked: false
+      api: api,
+      liked: (this.props.login)?(this.props.user.favorites.includes(""+this.props.item._id)):(false)
+    }
+    console.log("in like heart; liked value is ", this.state.liked);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.login){
+      this.setState({
+        liked: nextProps.user.favorites.includes(""+nextProps.item._id)
+      });
     }
   }
 
   handleLikeClick(e) {
-    // style stuff
-    this.setState({
-      liked: !this.state.liked
-    });
-
-    //api STUFF
-
+      if(this.props.login) {
+        this.setState({
+          liked: this.props.user.favorites.includes(""+this.props.item._id)
+        });
+      }
+      console.log(this.state.liked);
+      this.state.api.favoriteClick(this.props.user._id, this.props.item._id, this.state.liked);
   }
+
   render() {
     let classes = classNames({
       filled: this.state.liked,
@@ -28,7 +43,10 @@ export default class LikeHeart extends Component {
       likeHeart: true
     });
     return (
-      <div className={classes} onClick={this.handleLikeClick.bind(this)}></div>
+      <div>
+        <div className={classes} onClick={this.handleLikeClick.bind(this)}></div>
+        <p>Favorites: {this.props.item.favorites}</p>
+      </div>
     );
   }
 }

@@ -179,6 +179,59 @@ app.post('/api/addItem', function(req, res) {
 
 });
 
+app.post("/api/favoriteClick", function(req, res) {
+  var userItemObject = req.body;
+  var isLiked = userItemObject.isLiked;
+  var nuUserItemObject = {liked: isLiked};
+
+  console.log("in favorite click", userItemObject);
+
+  Item.findOne({_id: userItemObject.item}, function(err, item) {
+    if(err) {
+      console.log("error finding item to favorite", err);
+      return;
+    }
+    if(isLiked) {
+      console.log("is liked, so decreasing");
+      item.favorites--;
+    } else {
+      console.log("is not liked, so increasing");
+      item.favorites++;
+    }
+    item.save(function(err, item) {
+      if(err) {
+        console.log("error saving item favorite change");
+        return;
+      }
+      nuUserItemObject.item = item;
+      User.findOne({_id: userItemObject.user}, function(err, user) {
+        if(err){
+          console.log("error finding user to change favorite", err);
+          return;
+        }
+        if(isLiked) {
+          console.log("checking isliked");
+          var index = user.favorites.indexOf(item._id);
+          console.log("checking isliked, favorites && index of fav", user.favorites, index);
+          user.favorites.splice(index, 1);
+          console.log("post isliked click, favorites", user.favorites);
+        } else {
+          user.favorites.push(item);
+        }
+
+        user.save(function(err, user) {
+          if(err){
+            console.log("error saving user favorite change", err);
+            return;
+          }
+          nuUserItemObject.user = user;
+          res.send(nuUserItemObject);
+        });
+      });
+    });
+  });
+});
+
 // SOCKET STUFF
 
 var server = app.listen(app.get('port'), function() {
@@ -200,7 +253,17 @@ io.on('connection', function(socket){
     io.emit("comment added", comment);
   });
 
+  socket.on("favorite click", function(userItemObject) {
+    //update favorite count for item by incrementing by 1
+    io.emit("item favorite change", userItemObject.item);
+    //update favorite array for user by adding item ID
+    console.log("about to emit user favorite change");
+    socket.emit("user favorite change", userItemObject.user);
+  });
+
   socket.on("disconnect", function() {
     console.log("user disconnected");
-  })
+  });
+
+
 });
