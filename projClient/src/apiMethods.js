@@ -35,6 +35,62 @@ module.exports = class APIMethods {
     });
   }
 
+  getFavoritesPopulated(cb, userID) {
+    let reqURL = '/api/getFavoritesPopulated';
+    reqURL += '?userID='+userID;
+    fetch(reqURL, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(
+      function(response) {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(data) {
+          //return so feed can present
+          return cb(data);
+        });
+      }
+    )
+    .catch(function(err) {
+      console.log("fetch error... ", err);
+    });
+  }
+
+  getItems(cb) {
+    fetch('/api/getItems', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(
+      function(response) {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(data) {
+          //return so feed can present
+          return cb(data);
+        });
+      }
+    )
+    .catch(function(err) {
+      console.log("fetch error... ", err);
+    });
+  }
+
   addItem(item) {
     this.item = item;
     console.log("in add item", this);
@@ -133,33 +189,6 @@ module.exports = class APIMethods {
     this.socket.emit("comment added", comment);
   }
 
-  getItems(cb) {
-    fetch('/api/getItems', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }).then(
-      function(response) {
-        if (response.status !== 200) {
-          console.log('Looks like there was a problem. Status Code: ' +
-            response.status);
-          return;
-        }
-
-        // Examine the text in the response
-        response.json().then(function(data) {
-          //return so feed can present
-          return cb(data);
-        });
-      }
-    )
-    .catch(function(err) {
-      console.log("fetch error... ", err);
-    });
-  }
-
   addAndOrGetUser(user, cb) {
     fetch('/api/addAndOrGetUser', {
       method: 'POST',
@@ -223,6 +252,5 @@ module.exports = class APIMethods {
     this.socket.emit("favorite click", userItemObject);
     return false;
   }
-
 
 }

@@ -9,9 +9,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
-    "google-maps": "^3.2.1",
-    "google-maps-react": "^1.0.19",
+    "google-map-react": "^0.22.0",
     "react": "^15.4.1",
+    "react-addons-pure-render-mixin": "^15.4.1",
+    "react-controllables": "^0.6.0",
     "react-dom": "^15.4.1",
     "react-places-autocomplete": "^2.3.2",
     "react-router": "^3.0.0"

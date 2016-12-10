@@ -2,11 +2,10 @@ var mongoose = require('mongoose');
 
 var dbconf="";
 
-var User = mongoose.Schema({
-  fbID: {type: Number, required: true},
-  name: {type: String, required: true},
-  favorites:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
+var Comm = mongoose.Schema({
+  text: {type: String, required: true},
+  item: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item'},
+  user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
 },
 {
   timestamps: true
@@ -24,20 +23,22 @@ var Item = mongoose.Schema({
   timestamps: true
 });
 
-var Comm = mongoose.Schema({
-  text: {type: String, required: true},
-  item: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item'},
-  user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
+var Restaurant = mongoose.Schema({
+  //array, of lat by lng geocode
+  geoLocation: {type: Array, required: true},
+  name: {type: String, required: true},
+  location: {type: String, required: true},
+  items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item"}
 },
 {
   timestamps: true
 });
 
-var Restaurant = mongoose.Schema({
-  //array, of lat by lng geocode
-  geoLocation: {type: Array, required: true},
+var User = mongoose.Schema({
+  fbID: {type: Number, required: true},
   name: {type: String, required: true},
-  items: {type: [mongoose.Schema.Types.ObjectId], ref: "Item"}
+  favorites:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
 },
 {
   timestamps: true

@@ -1,0 +1,8 @@
+#mapContainer {
+  height: 400px;
+  width: 600px;
+  background-color: black;
+  margin: auto;
+  padding: 10px;
+  border: solid 5px #FF6666;
+}

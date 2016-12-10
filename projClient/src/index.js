@@ -17,7 +17,7 @@ ReactDOM.render(
   (<Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Feed} />
-      <Route path="user(/:user)" component={User} />
+      <Route path="user/:user" component={User} />
       <Route path="item" component={Item} />
       <Route path="restaurant" component={Restaurant} />
     </Route>

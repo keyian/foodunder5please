@@ -45,9 +45,7 @@ class App extends Component {
       login: false}
     );
   }
-  componentDidMount() {
-    console.log(this.props.children);
-  }
+
   render() {
     return (
       <div>

@@ -1,6 +1,8 @@
 var express = require('express');
 var multer = require('multer');
 
+var async = require('async');
+
 var mimeToExt = {
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
@@ -65,15 +67,29 @@ app.get("/api/getItems", function(req, res) {
 });
 
 app.get("/api/getComments", function(req, res) {
-  console.log("in api get comments");
-  console.log(req.query.item);
   let item = req.query.item;
   Comment.find({'item': item}).exec(
     function(err, comments, count) {
       res.send(comments);
     }
   );
-})
+});
+
+app.get("/api/getFavoritesPopulated", function(req, res) {
+  let userID = req.query.userID;
+  User.findById(userID)
+  .populate({
+  	path:     'favorites',
+  	populate: { path:  'restaurant'}
+  })
+  .exec(function(err, user) {
+    if(err) {
+      console.log("error getting populated user", err);
+      return;
+    }
+    res.send(user);
+  });
+});
 
 app.post("/api/addComment", function(req, res) {
   var comment = req.body;
