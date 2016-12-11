@@ -1,8 +1,6 @@
 var express = require('express');
 var multer = require('multer');
 
-var async = require('async');
-
 var mimeToExt = {
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
