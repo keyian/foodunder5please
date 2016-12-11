@@ -98,7 +98,8 @@ app.post("/api/addComment", function(req, res) {
   new Comment({
     text: comment.comment,
     item: comment.item,
-    user: comment.user
+    user: comment.user._id,
+    userName: comment.user.name
   }).save(function(err, comment) {
     if(err){
       console.log("uh oh, error saving new comment 2 db", err);
@@ -161,7 +162,8 @@ app.post('/api/addItem', function(req, res) {
   new Restaurant({
     //array, of lat by lng geocode
     geoLocation: item.itemRestaurantGeocode,
-    name: item.itemRestaurantAddress,
+    name: item.itemRestaurantName,
+    location: item.itemRestaurantAddress,
     items: []
   }).save(function(err, rest, count) {
     if(err) {

@@ -49,7 +49,7 @@ export default class CommentBox extends Component {
   submitComment() {
     console.log("in commentbox submitcomment...");
     console.log("comment added client side by", this.props.user);
-    this.state.api.submitComment.apply(this.state.api, [this.state.input, this.props.item, this.props.user._id]);
+    this.state.api.submitComment.apply(this.state.api, [this.state.input, this.props.item, this.props.user]);
     this.setState({input: ""});
   }
 
@@ -68,7 +68,7 @@ export default class CommentBox extends Component {
     return (
       <div>
         <ul>
-        {this.state.comments.map((comment, i)=> <li key={i}>{comment.text}</li>)}
+        {this.state.comments.map((comment, i)=> <li key={i}>{comment.userName}: {comment.text}</li>)}
         </ul>
       <textarea className={(this.props.login) ? ("showCommentInput"):("hideCommentInput")} value={this.state.input}style={{resize: "none"}} rows="4" cols="50" placeholder="Comment..." onChange={this.handleChange.bind(this)} onKeyPress={this.handleEnter.bind(this)}>
       </textarea>

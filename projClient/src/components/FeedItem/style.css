@@ -1,3 +1,46 @@
 img {
-  width: 25%;
+  width: 50%;
+}
+
+#feedItemBox {
+  background-color: #C5C5FF;
+  width: 50%;
+  margin:auto;
+  padding: 15px;
+  border: 5px solid #9999FF;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#feedItemBox, #feedItemBox > *{
+  text-align: left;
+}
+
+/*css transitions*/
+.feedItemImage-enter {
+  opacity: 0.01;
+}
+
+.feedItemImage-enter.feedItemImage-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.feedItemImage-leave {
+  opacity: 1;
+}
+
+.feedItemImage-leave.feedItemImage-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.feedItemImage-appear {
+  opacity: 0.01;
+}
+
+.feedItemImage-appear.feedItemImage-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
 }

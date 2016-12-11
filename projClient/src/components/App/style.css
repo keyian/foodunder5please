@@ -18,11 +18,34 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+body {
+  text-align: center;
+  background-color: #FFB5B5;
 }
 
-* {
-  text-align: center;
+.header-enter {
+  opacity: 0.01;
+}
+
+.header-enter.header-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.header-leave {
+  opacity: 1;
+}
+
+.header-leave.header-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.header-appear {
+  opacity: 0.01;
+}
+
+.header-appear.header-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
 }

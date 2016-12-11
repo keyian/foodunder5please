@@ -5,7 +5,8 @@ var dbconf="";
 var Comm = mongoose.Schema({
   text: {type: String, required: true},
   item: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Item'},
-  user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'}
+  user: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+  userName: {type: String, required: true}
 },
 {
   timestamps: true

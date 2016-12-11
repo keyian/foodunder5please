@@ -11,7 +11,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <div>
+      <div id="headerBox">
         <Logo />
         <Login user={this.props.user} socket={this.props.socket} loginCB={this.props.loginCB} logoutCB={this.props.logoutCB} />
         <AddItemForm login={this.props.login} user={this.props.user} onItemSubmit={this.props.onAddItemSubmit} />

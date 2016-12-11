@@ -6,6 +6,9 @@ import { Link } from 'react-router';
 
 let apiMethods = require('../../apiMethods.js');
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +52,14 @@ class App extends Component {
   render() {
     return (
       <div>
+      <ReactCSSTransitionGroup
+        transitionName="header"
+        transitionEnterTimeout={1000}
+        transitionLeaveTimeout={1000}
+        transitionAppear={true}
+        transitionAppearTimeout={1000}>
         <Header login={this.state.login} user={this.state.user} socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
+      </ReactCSSTransitionGroup>
         <Link to={`/user/${this.state.user._id}`}>{this.state.user.name}</Link>
         {React.Children.map(this.props.children, (child) => React.cloneElement(child, { login: this.state.login, user: this.state.user, socket: this.state.socket }))}
       </div>

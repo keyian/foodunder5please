@@ -6,6 +6,7 @@ import FeedItem from '../FeedItem';
 
 let apiMethods = require('../../apiMethods.js');
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 //use api to get all posts
 //enter the information of the posts via loop into feed items
@@ -79,9 +80,16 @@ export default class Feed extends Component {
   render() {
     return (
       <div>
-        {this.state.items.map(
-          (item, i)=> <FeedItem key={i} item={item} user={this.props.user} login={this.props.login} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
-        }
+        <ReactCSSTransitionGroup
+          transitionName="feedItem"
+          transitionEnterTimeout={1000}
+          transitionLeaveTimeout={1000}
+          transitionAppear={true}
+          transitionAppearTimeout={1000}>
+            {this.state.items.map(
+              (item, i)=> <FeedItem key={i} item={item} user={this.props.user} login={this.props.login} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
+            }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

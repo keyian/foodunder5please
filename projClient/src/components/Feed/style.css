@@ -1,0 +1,26 @@
+.feedItem-enter {
+  opacity: 0.01;
+}
+
+.feedItem-enter.feedItem-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.feedItem-leave {
+  opacity: 1;
+}
+
+.feedItem-leave.feedItem-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.feedItem-appear {
+  opacity: 0.01;
+}
+
+.feedItem-appear.feedItem-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

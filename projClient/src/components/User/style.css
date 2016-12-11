@@ -1,0 +1,26 @@
+.userPage-enter {
+  opacity: 0.01;
+}
+
+.userPage-enter.userPage-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.userPage-leave {
+  opacity: 1;
+}
+
+.userPage-leave.userPage-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.userPage-appear {
+  opacity: 0.01;
+}
+
+.userPage-appear.userPage-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}

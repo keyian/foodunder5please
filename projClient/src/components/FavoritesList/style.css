@@ -4,4 +4,10 @@
 
 #favoritesList {
   margin: auto;
+  margin: 20px;
+}
+
+#favoritesListBox{
+  width: 50%;
+  margin: auto;
 }

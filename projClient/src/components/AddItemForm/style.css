@@ -1,8 +1,21 @@
 #addItemFormBox {
   text-align: left;
-  position: absolute;
-  top: 15px;
-  left: 30px;
+  margin: 20px;
+  width: 30%;
+}
+
+#addItemImgButton {
+  position: relative;
+  top: 0px;
+  left: 0px;
+  width: 20%;
+  margin: 20px;
+}
+
+#justTheFormBox{
+  padding: 10px;
+  background-color: #FFB5B5;
+  border: 5px solid #9999FF;
 }
 
 .hideAddItemForm {
@@ -11,4 +24,12 @@
 
 .hideForm {
   display: none;
+}
+
+form > div, form > div > * {
+  text-align: left;
+}
+
+form {
+  display: inline;
 }
