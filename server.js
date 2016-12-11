@@ -67,7 +67,7 @@ app.get("/api/getItems", function(req, res) {
 });
 
 app.get("/api/getComments", function(req, res) {
-  let item = req.query.item;
+  var item = req.query.item;
   Comment.find({'item': item}).exec(
     function(err, comments, count) {
       res.send(comments);
@@ -76,7 +76,7 @@ app.get("/api/getComments", function(req, res) {
 });
 
 app.get("/api/getFavoritesPopulated", function(req, res) {
-  let userID = req.query.userID;
+  var userID = req.query.userID;
   User.findById(userID)
   .populate({
   	path:     'favorites',
@@ -149,7 +149,7 @@ app.post('/api/uploadImage', upload.single('itemImage'), (function(req, res, nex
   console.log("we startin upload image");
   console.log(req.file);
   //we should only get the path AFTER whatever is static...
-  let path = req.file.path;
+  var path = req.file.path;
   path = path.substr(path.indexOf(imgLoc));
   res.send(path);
 }));
