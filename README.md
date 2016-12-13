@@ -115,6 +115,10 @@ map of how this simple, template-utilizing website functions
 
 ## Research Topics
 
+*NOTE: ENDED UP RESEARCHING MORE... Made site with socket
+
+*(3 points) Explore Socket for realtime changes to item feed, favorites, and comments
+
 *(4 points) Perform client side form validation using custom JavaScript or JavaScript library
   *validating images and text length
   *also semantic validations, like is this a restaurant? is this capitalized?
