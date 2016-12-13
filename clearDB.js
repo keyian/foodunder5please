@@ -10,3 +10,5 @@ Restaurant.remove({});
 Item.remove({});
 User.remove({});
 Comment.remove({});
+
+console.log("cleared db");
