@@ -46,7 +46,7 @@ export default class User extends Component {
         transitionAppear={true}
         transitionAppearTimeout={1000}>
         <h1>{(this.props.user.name)?(this.props.user.name):("Login to see whose page this is.")}</h1>
-        <h2>these are your favorites, asshole!</h2>
+        <h2>these are your favorites!</h2>
         <FavoritesList favorites={this.state.favorites} />
         <Map favorites={this.state.favorites} />
       </ReactCSSTransitionGroup>
