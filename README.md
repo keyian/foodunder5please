@@ -1,6 +1,13 @@
 # Food Under Five Please (FU5P)
 
 ![img not displaying](/images/fu5p/fu5pLogo2.png?raw=true "Optional Title")
+##Install
+
+LOCAL RUN...
+First... clone.
+Second... npm install
+Third... cd projClient && npm install
+Fourth... cd ../ && npm start
 
 ##Overview
 
