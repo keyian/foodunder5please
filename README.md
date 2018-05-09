@@ -1,13 +1,6 @@
 # Food Under Five Please (FU5P)
 
 ![img not displaying](/images/fu5p/fu5pLogo2.png?raw=true "Optional Title")
-##Install
-
-LOCAL RUN...
-First... clone.
-Second... npm install
-Third... cd projClient && npm install
-Fourth... cd ../ && npm start
 
 ##Overview
 
@@ -122,10 +115,6 @@ map of how this simple, template-utilizing website functions
 
 ## Research Topics
 
-*NOTE: ENDED UP RESEARCHING MORE... Made site with socket
-
-*(3 points) Explore Socket for realtime changes to item feed, favorites, and comments
-
 *(4 points) Perform client side form validation using custom JavaScript or JavaScript library
   *validating images and text length
   *also semantic validations, like is this a restaurant? is this capitalized?
@@ -147,5 +136,3 @@ map of how this simple, template-utilizing website functions
 *(1 point) Facebook Login API
   *easy to implement. people don't want to have yet another account
 >>>>>>> 219e9604d5091b206f791c077b75d6cba4d35588
-
-here's a test to see what i'm even doing at this point
