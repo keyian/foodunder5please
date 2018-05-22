@@ -122,7 +122,7 @@ app.post("/api/addComment", function(req, res) {
 
 app.post("/api/addAndOrGetUser", (function(req, res) {
   var userLogin = req.body;
-
+  console.log("we at addAndOrGetUser");
   User.findOne({fbID: userLogin.id}, function(err, user) {
     if(err) {
       console.log("err while looking for user", err);
@@ -132,11 +132,14 @@ app.post("/api/addAndOrGetUser", (function(req, res) {
     if(user === null) {
       new User({
         fbID: userLogin.id,
-        name: userLogin.name
+        first_name: userLogin.first_name,
+        last_name: userLogin.last_name,
+        email: userLogin.email
       }).save(function(err, newUser) {
         res.send(newUser);
       });
     } else {
+      console.log("we gon send?");
       res.send(user);
     }
   });

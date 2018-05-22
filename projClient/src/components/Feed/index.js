@@ -54,6 +54,7 @@ export default class Feed extends Component {
 
   componentWillMount() {
     // fetch all the items... actually do this in app...?
+    console.log("is this what calls getItems?")
     this.state.api.getItems(this.gotItems.bind(this));
 
     this.props.socket.on('item added', this.realTimeAddItem.bind(this));
@@ -86,6 +87,7 @@ export default class Feed extends Component {
           transitionLeaveTimeout={1000}
           transitionAppear={true}
           transitionAppearTimeout={1000}>
+            <h1>FEED ME</h1>
             {this.state.items.map(
               (item, i)=> <FeedItem key={i} item={item} user={this.props.user} login={this.props.login} restaurant={this.state.restaurants[i]} socket={this.props.socket}/>)
             }

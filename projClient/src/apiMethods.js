@@ -209,6 +209,7 @@ module.exports = class APIMethods {
         response.json().then(function(data) {
           //return and then post to dom
           console.log("add user response", data);
+          console.log("we at addAndOrGetUser");
           //this should be user ID not FACEBOOK ID
           cb(data);
         });

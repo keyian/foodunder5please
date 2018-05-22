@@ -37,7 +37,9 @@ var Restaurant = mongoose.Schema({
 
 var User = mongoose.Schema({
   fbID: {type: Number, required: true},
-  name: {type: String, required: true},
+  first_name: {type: String, required: true},
+  last_name: {type: String, required: true},
+  email: {type: String, required: false},
   favorites:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
 },

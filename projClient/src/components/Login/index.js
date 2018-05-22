@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import './style.css';
 
 let apiMethods = require('../../apiMethods.js');
+import { Link } from 'react-router';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -18,7 +20,6 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
-    console.log("login got mounted");
     window.fbAsyncInit = (function() {
 
       FB.init({
@@ -88,8 +89,8 @@ export default class Login extends Component {
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
   loginSuccess() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', this.fbMeCB.bind(this));
+    console.log('loginSuccess');
+    FB.api('/me?fields=id,email,first_name,last_name', 'GET', {}, this.fbMeCB.bind(this));
   }
 
   fbMeCB(response) {
@@ -99,6 +100,7 @@ export default class Login extends Component {
   }
 
   setDBUser(user) {
+    console.log("is setDBUser being called");
     this.props.loginCB(user);
     this.setState({login: true});
   }
@@ -109,11 +111,13 @@ export default class Login extends Component {
     this.props.logoutCB();
   }
 
+  // <Link to={`/user/${this.props.user._id}`}>{this.props.user.name}</Link>
   render() {
+    var loginLink = <Link to={`/user/${this.props.user._id}`}>{this.props.user.first_name}</Link>;
     return (
       <div id="loginBox">
         <a id="loginLink" href="#" onClick={this.handleClickLogin.bind(this)}>{(this.state.login)?("Logout"):("Login")}</a>
-        <p id="status">{(this.state.login)?(`Hello ${this.props.user.name}`):("Please login with Facebook in order to add items, comment on items, like items, and see your items mapped out.")}</p>
+        <p id="status">Hey, {(this.state.login)?(loginLink):("please login with Facebook in order to add items, comment on items, like items, and see your items mapped out.")}</p>
       </div>
     );
   }

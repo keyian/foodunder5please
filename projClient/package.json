@@ -10,7 +10,7 @@
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
     "google-map-react": "^0.22.0",
-    "react": "^15.4.1",
+    "react": "^15.4.1cd ",
     "react-addons-css-transition-group": "^15.4.1",
     "react-addons-pure-render-mixin": "^15.4.1",
     "react-controllables": "^0.6.0",
