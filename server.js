@@ -97,7 +97,7 @@ app.post("/api/addComment", function(req, res) {
     text: comment.comment,
     item: comment.item,
     user: comment.user._id,
-    userName: comment.user.name
+    userName: comment.user.first_name
   }).save(function(err, comment) {
     if(err){
       console.log("uh oh, error saving new comment 2 db", err);

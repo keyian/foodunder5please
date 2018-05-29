@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
+var SALT_WORK_FACTOR = 10;
 
 var dbconf="";
 
@@ -36,9 +38,11 @@ var Restaurant = mongoose.Schema({
 });
 
 var User = mongoose.Schema({
-  fbID: {type: Number, required: true},
-  first_name: {type: String, required: true},
-  last_name: {type: String, required: true},
+  fbID: {type: Number, required: false},
+  first_name: {type: String, required: false},
+  last_name: {type: String, required: false},
+  username: {type: String, required: true, index: {unique: true} },
+  password: {type: String, required: true},
   email: {type: String, required: false},
   favorites:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item', required: false }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: false}]
@@ -46,6 +50,77 @@ var User = mongoose.Schema({
 {
   timestamps: true
 });
+
+User.pre("save",
+function () {    var user = this;
+    // only hash the password if it has been modified (or is new)
+    if (!user.isModified('password')){ return next();}
+
+    // generate a salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+        if (err) return next(err);
+
+        // hash the password along with our new salt
+        bcrypt.hash(user.password, salt, function(err, hash) {
+            if (err) {
+              return next(err);
+            }
+            // override the cleartext password with the hashed one
+            user.password = hash;
+            next();
+        });
+      });
+    });
+
+User.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+
+var connStr = "mongodb://localhost:27017/mongoose-bcrypt-test";
+mongoose.connect(connStr, function(err) {
+    if (err) {
+      throw err;
+    }
+    console.log("Successfully connected to MongoDB");
+});
+
+var UserModelEG = mongoose.model("User", User);
+// create a user a new user
+new UserModelEG({
+    username: "jmar777",
+    password: "Password123"
+}).save(function(err) {
+    if (err) {
+      console.log("error at saving new user")
+    }
+});
+
+// fetch user and test password verification
+UserModelEG.findOne({ username: 'jmar777' }, function(err, user) {
+    if (err) {
+      console.log("error at findOne")
+    }
+
+    // test a matching password
+    user.comparePassword('Password123', function(err, isMatch) {
+      if (err) {
+        console.log("error at first comparePassword")
+      }
+        console.log('Password123:', isMatch); // -> Password123: true
+    });
+
+    // test a failing password
+    user.comparePassword('123Password', function(err, isMatch) {
+      if (err) {
+        console.log("error at second comparePassword")
+      }
+        console.log('123Password:', isMatch); // -> 123Password: false
+    });
+});
+
 
 mongoose.model("User", User);
 mongoose.model("Item", Item);
