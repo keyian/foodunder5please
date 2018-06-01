@@ -1,14 +1,3 @@
-#loginBox {
-  text-align: right;
-  width: 30%;
-  display: inline-block;
-  
-}
-
-#logoutLink {
-  display: none;
-}
-
-#status {
-  width: 100%;
+#loginForm {
+  float: right;
 }

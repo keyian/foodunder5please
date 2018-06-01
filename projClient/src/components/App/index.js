@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Header from '../Header';
 import './style.css';
-import { Link } from 'react-router';
 
 let apiMethods = require('../../apiMethods.js');
 
