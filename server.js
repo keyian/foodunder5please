@@ -123,7 +123,7 @@ app.post("/api/addComment", function(req, res) {
 app.post("/api/addAndOrGetUser", (function(req, res) {
   var userLogin = req.body;
   console.log("we at addAndOrGetUser");
-  User.findOne({fbID: userLogin.id}, function(err, user) {
+  User.findOne({username: userLogin.username}, function(err, user) {
     if(err) {
       console.log("err while looking for user", err);
       return;
@@ -131,16 +131,22 @@ app.post("/api/addAndOrGetUser", (function(req, res) {
     //not an error; is user null? if yes, create the user; if no, return the user
     if(user === null) {
       new User({
-        fbID: userLogin.id,
-        first_name: userLogin.first_name,
-        last_name: userLogin.last_name,
-        email: userLogin.email
+        username: userLogin.username,
+        password: userLogin.password,
       }).save(function(err, newUser) {
         res.send(newUser);
       });
-    } else {
-      console.log("we gon send?");
-      res.send(user);
+    }
+    //otherwise, just send that user back and we can then continue
+    else {
+      //NOTE: we do not yet need account locking, because these accounts aren't exactly sensitive.
+      //so for now, these will simply be making sure that the comparePassword method established
+      //in db.js is used.
+      password = userLogin.password;
+      user.comparePassword(password, function(err, isMatch) {
+        if (err) throw err;
+        isMatch ? res.send(user) : console.log("u jerk, false password");
+      });
     }
   });
 

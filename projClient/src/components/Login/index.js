@@ -3,15 +3,24 @@
 //***! <- stuff to do
 import React, { Component } from 'react';
 
+//we will use apiMethods for adding/validating user
+let apiMethods = require('../../apiMethods.js');
+
 import './style.css';
 
-export default class AddItemForm extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
+    let api = new apiMethods(this.props.socket);
 
     this.state = {
+      api: api,
+      login: false,
       username: "",
       password: "",
+      newUN: "",
+      newPW: "",
+      confirmPW: "",
       hideLoginForm: false,
       hideSignupForm: true
     };
@@ -26,39 +35,71 @@ export default class AddItemForm extends Component {
     })
   }
 
-  handleSubmit(e) {
+  handleSubmitLogin(e) {
     e.preventDefault();
+
+    //acquire current states for login: username & password
+    let username = this.state.username;
+    let password = this.state.password;
+
+    //validate.
+    let userObject = {
+      username: username,
+      password: password
+    };
+    this.state.api.addAndOrGetUser(userObject, this.setDBUser.bind(this));
+
+
+
   }
+
+  handleSubmitSignup(e) {
+    e.preventDefault();
+
+    //acquire current states
+  }
+
+  loginChange(e) {
+    this.setState({[e.target.id]: e.target.value});
+  }
+
+    setDBUser(user) {
+      console.log("is setDBUser being called");
+      this.props.loginCB(user);
+      this.setState({login: true});
+    }
 
   render() {
     return (
       <div>
       <div id="login">
-        <form id="loginForm" method="POST" onSubmit={this.handleSubmit.bind(this)} action="" encType="multipart/form-data">
+        <form id="loginForm" method="POST" onSubmit={this.handleSubmitLogin.bind(this)} action="" encType="multipart/form-data">
           <div>
             <label htmlFor="usernameLogin">Username: </label><br />
-            <input type="text" name="usernameLogin" id="usernameLogin" value={this.state.itemName} onChange={this.onChangeName.bind(this)} />
+            <input type="text" name="username" id="username" value={this.state.username} onChange={this.loginChange.bind(this)} />
           </div>
           <div>
             <label htmlFor="passwordLogin">Password: </label><br />
-            <input type="password" name="passwordLogin" id="passwordLogin" value={this.state.itemCost}  onChange={this.onChangeCost.bind(this)} />
+            <input type="password" name="password" id="password" value={this.state.password}  onChange={this.loginChange.bind(this)} />
           </div>
+          <input type="submit" name="loginBtn" id="loginBtn" value="Login" />
         </form>
       </div>
       <div id="signup">
-      <form id="signUpForm" method="POST" onSubmit={this.handleSubmit.bind(this)} action="" encType="multipart/form-data">
+      <form id="signUpForm" method="POST" onSubmit={this.handleSubmitSignup.bind(this)} action="" encType="multipart/form-data">
         <div>
           <label htmlFor="usernameSignup">Username: </label><br />
-          <input type="text" name="usernameSignup" id="usernameSignup" value={this.state.itemName} onChange={this.onChangeName.bind(this)} />
+          <input type="text" name="newUN" id="newUN" value={this.state.newUN} onChange={this.loginChange.bind(this)} />
         </div>
         <div>
           <label htmlFor="passwordSignup">Password: </label><br />
-          <input type="password" name="passwordSignup" id="passwordSignup" value={this.state.itemCost}  onChange={this.onChangeCost.bind(this)} />
+          <input type="password" name="newPW" id="newPW" value={this.state.newPW}  onChange={this.loginChange.bind(this)} />
         </div>
         <div>
           <label htmlFor="confirmPassword">Confirm Password: </label><br />
-          <input type="password" name="confirmPassword" id="confirmPassword" value={this.state.itemCost}  onChange={this.onChangeCost.bind(this)} />
+          <input type="password" name="confirmPW" id="confirmPW" value={this.state.confirmPW}  onChange={this.loginChange.bind(this)} />
         </div>
+        <input type="submit" name="signupBtn" id="signupBtn" value="Signup" />
       </form>
       </div>
       </div>
