@@ -24,18 +24,17 @@ export default class Feed extends Component {
   }
 
   realTimeAddItem(item) {
-    console.log("socket is calling realTimeAddItem");
-    console.log("client side add item emission received");
-    console.log(item.restaurant._id);
-    console.log(this.state.items);
+    //prepend restaurant of new item to restaurantList
     let nuRestaurants = this.state.restaurants;
     nuRestaurants.unshift(item.restaurant);
     item.restaurant = item.restaurant._id;
-    console.log("now item restaurant is...", item.restaurant)
+
+    //prepend new item to item list
     let nuItems = this.state.items;
     nuItems.unshift(item);
 
-    console.log("nuitems unshift object", nuItems);
+    console.log("6/26/18, let's see what the nuItems look like", nuItems);
+
     this.setState({
       items: nuItems,
       restaurants: nuRestaurants
@@ -77,8 +76,6 @@ export default class Feed extends Component {
       items: itemList,
       restaurants: restaurantList
     });
-    console.log("restaurants...", this.state.restaurants);
-    console.log(this.state.items);
   }
 
   render() {

@@ -23,8 +23,6 @@ module.exports = class APIMethods {
 
         // Examine the text in the response
         response.json().then(function(data) {
-          console.log("get comments");
-          console.log("here is comment data", data);
           //return so feed can present
           return cb(data);
         });
@@ -93,8 +91,6 @@ module.exports = class APIMethods {
 
   addItem(item) {
     this.item = item;
-    console.log("in add item", this);
-    console.log(this.socket);
 
     let fd = new FormData(document.getElementById("addItemForm"));
 
@@ -105,8 +101,6 @@ module.exports = class APIMethods {
   }
 
   uploadImageInitialCallback(response) {
-    console.log("upImInCB logging this...");
-    console.log(this);
     if(response.status !== 200) {
       console.log('Looks like there was a problem. Status Code: ' +
         response.status);
@@ -117,9 +111,7 @@ module.exports = class APIMethods {
   }
 
   uploadImageResponseCallback(data) {
-    console.log('uploaded img where we at now..');
     //return and then post to dom
-    console.log(data);
     this.item.uploadedImagePath = data;
     fetch('/api/addItem', {
       method: 'POST',
@@ -146,18 +138,15 @@ module.exports = class APIMethods {
   }
 
   addItemResponseCallback(item) {
-      console.log("before socket item added");
       this.socketItemAdded(item);
   }
 
   socketItemAdded(item) {
-    console.log("item added api callback— for socket.io");
     this.socket.emit("item added", item);
     return false;
   }
 
   submitComment(comment, item, user) {
-    console.log("at submit comment...", comment, item, user);
     let commentObject = {comment: comment, item: item, user: user};
     //***! eventually validate comment?
     fetch('/api/addComment', {
@@ -208,8 +197,6 @@ module.exports = class APIMethods {
         // Examine the text in the response
         response.json().then(function(data) {
           //return and then post to dom
-          console.log("add user response", data);
-          console.log("we at addAndOrGetUser");
           //this should be user ID not FACEBOOK ID
           cb(data);
         });
@@ -257,7 +244,6 @@ module.exports = class APIMethods {
   }
 
   socketFavoriteClick(userItemObject) {
-    console.log("favorite click api callback— for socket.io");
     this.socket.emit("favorite click", userItemObject);
     // return false;
   }

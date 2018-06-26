@@ -21,6 +21,14 @@ export default class CommentBox extends Component {
     this.state.api.getComments.apply(this.state.api, [this.gotComments.bind(this), this.props.item]);
 
     this.props.socket.on('comment added', this.realTimeAddComment.bind(this));
+    this.props.socket.on('item added', this.realTimeItemChange.bind(this));
+  }
+
+  realTimeItemChange(item) {
+    this.setState({
+      comments: []
+    });
+    this.state.api.getComments.apply(this.state.api, [this.gotComments.bind(this), this.props.item]);
   }
 
   gotComments(comments) {
