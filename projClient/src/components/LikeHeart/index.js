@@ -12,7 +12,7 @@ export default class LikeHeart extends Component {
     console.log("user in likeheart", this.props.user);
     this.state = {
       api: api,
-      liked: (this.props.login)?(this.props.user.favorites.includes(""+this.props.item._id)):(false)
+      liked: (this.props.login)?(this.props.user.favorites.includes(this.props.item._id)):(false)
     }
     console.log("in like heart; liked value is ", this.state.liked);
   }
@@ -26,6 +26,7 @@ export default class LikeHeart extends Component {
   }
 
   handleLikeClick(e) {
+      console.log("before click, this is state... ", this.state.liked);
       if(this.props.login) {
         this.setState({
           liked: this.props.user.favorites.includes(""+this.props.item._id)

@@ -73,6 +73,8 @@ app.get("/api/getComments", function(req, res) {
   );
 });
 
+//***delete this comment once accomplished***
+//find user by something other than userID??? is userID fb supplied or mongo?
 app.get("/api/getFavoritesPopulated", function(req, res) {
   var userID = req.query.userID;
   User.findById(userID)
@@ -97,7 +99,7 @@ app.post("/api/addComment", function(req, res) {
     text: comment.comment,
     item: comment.item,
     user: comment.user._id,
-    userName: comment.user.first_name
+    userName: comment.user.username
   }).save(function(err, comment) {
     if(err){
       console.log("uh oh, error saving new comment 2 db", err);
@@ -204,6 +206,13 @@ app.post('/api/addItem', function(req, res) {
 
 });
 
+
+/*
+-called on by apiMethods
+-request contains stringified body of "userItemObject", aka the user, item, and liked status
+-if current status of object isLiked... decrease item's favorites; if not liked, increase.
+-
+*/
 app.post("/api/favoriteClick", function(req, res) {
   var userItemObject = req.body;
   var isLiked = userItemObject.isLiked;
@@ -234,14 +243,18 @@ app.post("/api/favoriteClick", function(req, res) {
           console.log("error finding user to change favorite", err);
           return;
         }
+        //if CURRENTLY liked—ie, unlike it.
         if(isLiked) {
           console.log("checking isliked");
+          console.log("this is what user.favorites looks like...", user.favorites);
           var index = user.favorites.indexOf(item._id);
           console.log("checking isliked, favorites && index of fav", user.favorites, index);
           user.favorites.splice(index, 1);
           console.log("post isliked click, favorites", user.favorites);
         } else {
-          user.favorites.push(item);
+          console.log("item not liked before click...");
+          user.favorites.push(item._id);
+          console.log("this is what user.favorites looks like... (after being pushed)", user.favorites);
         }
 
         user.save(function(err, user) {
@@ -267,6 +280,7 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(socket){
   console.log('a user connected');
+
   socket.on("item added", function(item){
     console.log("server side item added event called");
     io.emit("item added", item);
@@ -282,8 +296,7 @@ io.on('connection', function(socket){
     //update favorite count for item by incrementing by 1
     io.emit("item favorite change", userItemObject.item);
     //update favorite array for user by adding item ID
-    console.log("about to emit user favorite change");
-    socket.emit("user favorite change", userItemObject.user);
+    io.emit("user favorite change", userItemObject.user);
   });
 
   socket.on("disconnect", function() {

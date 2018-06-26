@@ -9,10 +9,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class FeedItem extends Component {
 
-  componentDidMount() {
-    console.log("in feeditem");
-    console.log(this.props.item);
-  }
   render() {
     return (
       <div id="feedItemBox">

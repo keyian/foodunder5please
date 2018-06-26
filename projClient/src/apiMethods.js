@@ -220,6 +220,14 @@ module.exports = class APIMethods {
     });
   }
 
+/*
+-this api method takes the _id values of user and item, as well as the current "liked" state (pre-click)
+-first it POSTS to api/favoriteClick (check server.js)
+-the response is then sent to an initial callback which checks if there was a non-200 response Status
+-then the response is sent to a second callback which sends the "userItemObject" to socketFavoriteClick (see below)
+-finally, socketFavoriteClick emits a favorite click
+-user favorites changed in server.js
+*/
   favoriteClick(userID, itemID, current) {
     let userItemObject = {user: userID, item: itemID, isLiked: current};
     //***! eventually validate comment?
@@ -251,7 +259,7 @@ module.exports = class APIMethods {
   socketFavoriteClick(userItemObject) {
     console.log("favorite click api callback— for socket.io");
     this.socket.emit("favorite click", userItemObject);
-    return false;
+    // return false;
   }
 
 }

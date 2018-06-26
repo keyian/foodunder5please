@@ -24,6 +24,7 @@ export default class Feed extends Component {
   }
 
   realTimeAddItem(item) {
+    console.log("socket is calling realTimeAddItem");
     console.log("client side add item emission received");
     console.log(item.restaurant._id);
     console.log(this.state.items);
@@ -42,7 +43,9 @@ export default class Feed extends Component {
   }
 
   realTimeItemFavorite(item) {
+    console.log("socket is calling realTimeItemFavorite", item);
     let nuItems = this.state.items;
+    //find index of item with appropriate item id
     let changedItemIndex = nuItems.findIndex(function(oldItem) {
       return item._id === oldItem._id;
     });
