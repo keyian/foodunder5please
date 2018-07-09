@@ -114,8 +114,11 @@ export default class Login extends Component {
     return (
       <div id="loginBox">
         <a id="loginLink" href="#" onClick={this.handleClickLogin.bind(this)}>{(this.state.login)?("Logout"):("Login")}</a>
-        <p id="status">{(this.state.login)?(`Hello ${this.props.user.name}`):("Please login with Facebook in order to add items, comment on items, like items, and see your items mapped out.")}</p>
       </div>
     );
   }
 }
+
+
+//dont need this i dont think
+//         <p id="status">{(this.state.login)?(`Hello ${this.props.user.name}`):("Please login with Facebook in order to add items, comment on items, like items, and see your items mapped out.")}</p>
