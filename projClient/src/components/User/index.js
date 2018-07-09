@@ -35,10 +35,6 @@ export default class User extends Component {
     });
   }
 
-  fullName() {
-    return this.props.user.first_name + ' ' + this.props.user.last_name;
-  }
-
   render() {
     return (
       <div>
@@ -49,7 +45,7 @@ export default class User extends Component {
         transitionLeaveTimeout={1000}
         transitionAppear={true}
         transitionAppearTimeout={1000}>
-        <h1>{(this.props.user.first_name)?(this.fullName()):("Login to see whose page this is.")}</h1>
+        <h1>{(this.props.user.name)?(this.props.user.name):("Login to see whose page this is.")}</h1>
         <h2>these are your favorites!</h2>
         <FavoritesList favorites={this.state.favorites} />
         <Map favorites={this.state.favorites} />

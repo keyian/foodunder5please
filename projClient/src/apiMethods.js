@@ -196,6 +196,7 @@ module.exports = class APIMethods {
 
         // Examine the text in the response
         response.json().then(function(data) {
+          console.log("in addAndOrGetUser, about to callback");
           //return and then post to dom
           //this should be user ID not FACEBOOK ID
           cb(data);
