@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 
 import Header from '../Header';
 import './style.css';
@@ -59,6 +60,7 @@ class App extends Component {
         transitionAppearTimeout={1000}>
         <Header login={this.state.login} user={this.state.user} socket={this.state.socket} loginCB={this.userLogin.bind(this)} logoutCB={this.userLogout.bind(this)} onAddItemSubmit={this.state.api.addItem.bind(this.state.api)} />
       </ReactCSSTransitionGroup>
+        <Link to={`/user/${this.state.user._id}`}>{this.state.user.name}</Link>
         {React.Children.map(this.props.children, (child) => React.cloneElement(child, { login: this.state.login, user: this.state.user, socket: this.state.socket }))}
       </div>
     );
