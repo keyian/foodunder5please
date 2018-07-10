@@ -1,5 +1,17 @@
 img {
   width: 50%;
+  margin:auto;
+  text-align: center;
+}
+.altFont {
+  font-family: Helvetica;
+  font-size: 24px;
+}
+
+#imgDiv {
+  width: 100%;
+  margin: auto;
+  text-align: center;
 }
 
 #feedItemBox {
@@ -13,7 +25,10 @@ img {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#feedItemBox, #feedItemBox > *{
+#feedItemBox{
+  text-align: left;
+}
+.comments, .comments > * {
   text-align: left;
 }
 

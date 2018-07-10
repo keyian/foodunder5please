@@ -6,7 +6,6 @@ import { IndexRoute, Router, Route, hashHistory } from 'react-router';
 
 import App from './components/App';
 import Feed from './components/Feed';
-import Item from './components/Item';
 import Restaurant from './components/Restaurant';
 import User from './components/User';
 
@@ -18,7 +17,6 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Feed} />
       <Route path="user/:user" component={User} />
-      <Route path="item" component={Item} />
       <Route path="restaurant" component={Restaurant} />
     </Route>
     <Route path="#/" component={App}>

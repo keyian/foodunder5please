@@ -2,6 +2,7 @@
   text-align: left;
   margin: 20px;
   width: 30%;
+  float: left;
 }
 
 #addItemImgButton {
@@ -28,7 +29,9 @@
 
 form > div, form > div > * {
   text-align: left;
+  margin-bottom: 12px;
 }
+
 
 form {
   display: inline;

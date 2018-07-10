@@ -29,9 +29,13 @@ class App extends Component {
 
   updateUser(user) {
     console.log("user favorite change was called... this is user object", user);
-    this.setState({
-      user: user
-    });
+    //only if this socket update is coming for the user in this particular
+    if(this.state.user.fbID === user.fbID) {
+      console.log(this.state.user.fbID, user);
+      this.setState({
+        user: user
+      });
+    }
   }
 
   userLogin(user) {

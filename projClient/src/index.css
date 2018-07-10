@@ -1,5 +1,30 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: ExpressaSerial;
+}
+
+@font-face {
+font-family: 'ExpressaSerial';
+src: url('fonts/ExpressaSerialRegular.ttf') format('truetype');
+font-weight: normal;
+font-style: normal;
+}
+@font-face {
+font-family: 'ExpressaSerial';
+src: url('fonts/ExpressaSerialBold.ttf') format('truetype');
+font-weight: bold;
+font-style: normal;
+}
+@font-face {
+font-family: 'ExpressaSerial';
+src: url('fonts/ExpressaSerialHeavy.ttf') format('truetype');
+font-weight: bolder;
+font-style: normal;
+}
+@font-face {
+font-family: 'ExpressaSerial';
+src: url('fonts/ExpressaSerialLight.ttf') format('truetype');
+font-weight: lighter;
+font-style: normal;
 }

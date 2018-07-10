@@ -76,9 +76,9 @@ export default class CommentBox extends Component {
     return (
       <div>
         <ul>
-        {this.state.comments.map((comment, i)=> <li key={i}>{comment.userName}: {comment.text}</li>)}
+        {this.state.comments.map((comment, i)=> <li key={i}><span className="altFont"> {comment.userName}:</span> {comment.text}</li>)}
         </ul>
-      <textarea className={(this.props.login) ? ("showCommentInput"):("hideCommentInput")} value={this.state.input}style={{resize: "none"}} rows="4" cols="50" placeholder="Comment..." onChange={this.handleChange.bind(this)} onKeyPress={this.handleEnter.bind(this)}>
+      <textarea className={(this.props.login) ? ("showCommentInput"):("hideCommentInput")} value={this.state.input}style={{resize: "none"}} rows="4" placeholder="Comment..." onChange={this.handleChange.bind(this)} onKeyPress={this.handleEnter.bind(this)}>
       </textarea>
       </div>
     );

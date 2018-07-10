@@ -150,6 +150,13 @@ export default class AddItemForm extends Component {
         <img id="addItemImgButton" onClick={this.showHideForm.bind(this)} src="/images/fu5pAddItemButton.svg" alt="add item" />
         <form className={formClasses} id="addItemForm" method="POST" onSubmit={this.handleSubmit.bind(this)} action="" encType="multipart/form-data">
           <div>
+            <label htmlFor="itemRestaurantName">Restaurant Name:</label><br />
+            <input type="text" name="restaurantName" id="itemRestaurantName" value={this.state.restaurantName} onChange={this.onChangeRestaurantName.bind(this)} />
+          </div>
+          <div>
+            <PlacesAutocomplete id="itemRestaurantLocation" value={this.state.address} onChange={this.onChangeAdd} placeholder='search nyc locations...' />
+          </div>
+          <div>
             <label htmlFor="itemName">Name of Item:</label><br />
             <input type="text" name="itemName" id="itemName" value={this.state.itemName} onChange={this.onChangeName.bind(this)} />
           </div>
@@ -160,13 +167,6 @@ export default class AddItemForm extends Component {
           <div>
             <label htmlFor="itemImage">Add an image? (optional): </label><br />
             <input type="file" name="itemImage" id="itemImage" onChange={this.onChangeImage.bind(this)} />
-          </div>
-          <div>
-            <label htmlFor="itemRestaurantName">Restaurant Name:</label><br />
-            <input type="text" name="restaurantName" id="itemRestaurantName" value={this.state.restaurantName} onChange={this.onChangeRestaurantName.bind(this)} />
-          </div>
-          <div>
-            <PlacesAutocomplete id="itemRestaurantLocation" value={this.state.address} onChange={this.onChangeAdd} />
           </div>
           <input type="submit" name="addItemBtn" id="addItemBtn" value="Add Item" />
         </form>

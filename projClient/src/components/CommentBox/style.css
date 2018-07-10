@@ -16,4 +16,9 @@ ul {
 
 textarea {
   margin: auto;
+  width: 70%;
+}
+
+.altFont {
+  font-size: 12px;
 }

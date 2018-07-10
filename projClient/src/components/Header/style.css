@@ -1,17 +1,8 @@
 #headerBox {
   background-color: white;
-  margin-bottom: 20px;
   border-bottom: 5px solid #9999FF;
-}
-
-#fu5pWritten {
-  /*change font*/
-  /*change size*/
-  font-size: 48px;
-  font-size: 5vw;
-  /*don't make new line*/
-  display: inline;
-  /*vertical align*/
-  vertical-align: middle;
-
+  margin-bottom: 10px;
+  height: auto;
+  overflow: hidden;
+  position: relative
 }

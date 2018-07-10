@@ -1,8 +1,9 @@
 #loginBox {
   text-align: right;
   width: 30%;
-  display: inline;
-
+  display: inline-block;
+  float: right;
+  margin: 10px;
 }
 
 #logoutLink {
